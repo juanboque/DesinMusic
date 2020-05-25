@@ -1,3 +1,4 @@
+/*JUAN ALBERTO*/
 const int MQ_PIN = 2;
 const int MQ_DELAY = 2000;
  
