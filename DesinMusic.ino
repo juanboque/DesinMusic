@@ -34,6 +34,7 @@
 #include <LCDWIKI_KBV.h> //Hardware-specific library
 
 //if the IC model is known or the modules is unreadable,you can use this constructed function
+//LCDWIKI_KBV my_lcd(ILI9341,A3,A2,A1,A0,A4); //model,cs,cd,wr,rd,reset
 LCDWIKI_KBV my_lcd(ILI9486,A3,A2,A1,A0,A4); //model,cs,cd,wr,rd,reset
 //if the IC model is not known and the modules is readable,you can use this constructed function
 //LCDWIKI_KBV my_lcd(320,480,A3,A2,A1,A0,A4);//width,height,cs,cd,wr,rd,reset
@@ -56,7 +57,10 @@ uint16_t s_width = my_lcd.Get_Display_Width();
 uint16_t s_heigh = my_lcd.Get_Display_Height();
 //int16_t PIXEL_NUMBER;
 
-char file_name[FILE_NUMBER][FILE_NAME_SIZE_MAX];
+bool bbmpOpem = false; //to open bmp only once
+int iCS = 53; //Chip Select SPI MEGA
+
+char file_name[16] = "logo.bmp";
 
 uint16_t read_16(File fp)
 {
@@ -129,10 +133,50 @@ void draw_bmp_picture(File fp)
       for(l = 0;l<PIXEL_NUMBER;l++)
       {
         my_lcd.Set_Draw_color(bpm_color[l]);
-        my_lcd.Draw_Pixel(j*PIXEL_NUMBER+l,i);
+        //my_lcd.Draw_Pixel(j*PIXEL_NUMBER+l,i);
+        my_lcd.Draw_Pixel(i, j*PIXEL_NUMBER+l);
       }    
      }
    }    
+}
+
+bool LoadPicFromSDCard()
+{
+  File bmp_file;
+      
+  //Init SD_Card int 
+  pinMode(iCS, OUTPUT);
+  if (!SD.begin(iCS)) 
+  {
+    my_lcd.Set_Text_Back_colour(WHITE);
+    my_lcd.Set_Text_colour(BLUE);    
+    my_lcd.Set_Text_Size(1);
+    my_lcd.Print_String("SD Card Init fail!",0,0);
+    return false;
+  }
+
+  bmp_file = SD.open(file_name);
+  if(!bmp_file)
+      {
+          my_lcd.Set_Text_Back_colour(WHITE);
+          my_lcd.Set_Text_colour(BLUE);    
+          my_lcd.Set_Text_Size(1);
+          my_lcd.Print_String("didnt find BMPimage!",0,10);
+          return false;
+      } else if (!analysis_bpm_header(bmp_file))
+      {  
+          my_lcd.Set_Text_Back_colour(WHITE);
+          my_lcd.Set_Text_colour(BLUE);    
+          my_lcd.Set_Text_Size(1);
+          my_lcd.Print_String("bad bmp picture!",0,0);
+          return false;
+      } else
+      {
+        draw_bmp_picture(bmp_file);
+        bmp_file.close(); 
+        return true;  
+      }  
+
 }
 
 void setup() 
@@ -140,58 +184,14 @@ void setup()
    Serial.begin(9600);
    my_lcd.Init_LCD();
    Serial.println(my_lcd.Read_ID(), HEX);
-   my_lcd.Fill_Screen(MAGENTA);
-   //s_width = my_lcd.Get_Display_Width();  
-   //s_heigh = my_lcd.Get_Display_Height();
-   //PIXEL_NUMBER = my_lcd.Get_Display_Width()/4;
-   if(PIXEL_NUMBER == 60) //240*320
-   {
-       strcpy(file_name[0],"tulip.bmp");
-       strcpy(file_name[1],"game.bmp");
-       strcpy(file_name[2],"tree.bmp");
-       strcpy(file_name[3],"flower.bmp");
-   }
-   else //320*480
-   {
-       strcpy(file_name[0],"LOGOMUS.bmp");
-   }
-  //Init SD_Card
-   pinMode(10, OUTPUT);
-   //digitalWrite(53, LOW);
-//   SPI.begin();//jagr
-//   SPI.setModule(53); //jagr
-    if (!SD.begin(10)) 
-    {
-      my_lcd.Set_Text_Back_colour(BLUE);
-      my_lcd.Set_Text_colour(WHITE);    
-      my_lcd.Set_Text_Size(1);
-      my_lcd.Print_String("SD Card Init fail!",0,0);
-    }
+   my_lcd.Fill_Screen(WHITE);
 }
 
 void loop() 
 {
-    int i = 0;
-    File bmp_file;
-    
-    bmp_file = SD.open(file_name[0]);
-    if(!bmp_file)
+    //Load Picture from SDCard
+    if (bbmpOpem == false)
     {
-        my_lcd.Set_Text_Back_colour(BLUE);
-        my_lcd.Set_Text_colour(WHITE);    
-        my_lcd.Set_Text_Size(1);
-        my_lcd.Print_String("didnt find BMPimage!",0,10);
-        while(1);
-     }
-     if(!analysis_bpm_header(bmp_file))
-     {  
-         my_lcd.Set_Text_Back_colour(BLUE);
-         my_lcd.Set_Text_colour(WHITE);    
-         my_lcd.Set_Text_Size(1);
-         my_lcd.Print_String("bad bmp picture!",0,0);
-        return;
-        }
-      draw_bmp_picture(bmp_file);
-      bmp_file.close(); 
-      delay(2000);
+      bbmpOpem = LoadPicFromSDCard();
+    }
 }
