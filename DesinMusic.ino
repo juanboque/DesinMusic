@@ -30,6 +30,7 @@
 
 #include <SD.h>
 #include <SPI.h>
+#include <TouchScreen.h> //touch library
 #include <LCDWIKI_GUI.h> //Core graphics library
 #include <LCDWIKI_KBV.h> //Hardware-specific library
 
@@ -51,6 +52,18 @@ LCDWIKI_KBV my_lcd(ILI9486,A3,A2,A1,A0,A4); //model,cs,cd,wr,rd,reset
 #define PIXEL_NUMBER  (my_lcd.Get_Display_Width()/4)
 #define FILE_NUMBER 4
 #define FILE_NAME_SIZE_MAX 20
+
+#define YP A3  // must be an analog pin, use "An" notation!
+#define XM A2  // must be an analog pin, use "An" notation!
+#define YM 9   // can be a digital pin
+#define XP 8   // can be a digital pin
+
+#define MINPRESSURE 10
+#define MAXPRESSURE 1000
+// For better pressure precision, we need to know the resistance
+// between X+ and X- Use any multimeter to read it
+// For the one we're using, its 300 ohms across the X plate
+TouchScreen ts = TouchScreen(XP, YP, XM, YM, 300);
 
 uint32_t bmp_offset = 0;
 uint16_t s_width = my_lcd.Get_Display_Width();  
@@ -144,6 +157,7 @@ bool LoadPicFromSDCard()
 {
   File bmp_file;
       
+  my_lcd.Fill_Screen(WHITE);
   //Init SD_Card int 
   pinMode(iCS, OUTPUT);
   if (!SD.begin(iCS)) 
@@ -184,7 +198,8 @@ void setup()
    Serial.begin(9600);
    my_lcd.Init_LCD();
    Serial.println(my_lcd.Read_ID(), HEX);
-   my_lcd.Fill_Screen(WHITE);
+   my_lcd.Fill_Screen(MAGENTA);
+   pinMode(13, OUTPUT);
 }
 
 void loop() 
@@ -193,5 +208,15 @@ void loop()
     if (bbmpOpem == false)
     {
       bbmpOpem = LoadPicFromSDCard();
+    }
+
+    digitalWrite(13, HIGH);
+    TSPoint p = ts.getPoint(); //control touch panel
+    digitalWrite(13, LOW);
+    pinMode(XM, OUTPUT);
+    pinMode(YP, OUTPUT);
+    if (p.z > MINPRESSURE && p.z < MAXPRESSURE) 
+    {
+      my_lcd.Fill_Screen(BLACK);
     }
 }
