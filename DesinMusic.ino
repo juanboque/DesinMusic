@@ -73,7 +73,7 @@ uint16_t s_heigh = my_lcd.Get_Display_Height();
 bool bbmpOpem = false; //to open bmp only once
 int iCS = 53; //Chip Select SPI MEGA
 
-char file_name[16] = "logo.bmp";
+char file_name[16] = "portada.bmp";
 
 uint16_t read_16(File fp)
 {
