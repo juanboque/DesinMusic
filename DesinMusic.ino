@@ -50,8 +50,11 @@ LCDWIKI_KBV my_lcd(ILI9486,A3,A2,A1,A0,A4); //model,cs,cd,wr,rd,reset
 #define WHITE   0xFFFF
 
 #define PIXEL_NUMBER  (my_lcd.Get_Display_Width()/4)
-#define FILE_NUMBER 4
+#define FILE_NUMBER 3
 #define FILE_NAME_SIZE_MAX 20
+#define PORTADA 0
+#define MENU 1
+#define UVC2MIN 2
 
 #define YP A3  // must be an analog pin, use "An" notation!
 #define XM A2  // must be an analog pin, use "An" notation!
@@ -71,9 +74,12 @@ uint16_t s_heigh = my_lcd.Get_Display_Height();
 //int16_t PIXEL_NUMBER;
 
 bool bbmpOpem = false; //to open bmp only once
-int iCS = 53; //Chip Select SPI MEGA
+int iCS = 10; //Chip Select SPI UNO
+//int iCS = 53; //Chip Select SPI MEGA
 
-char file_name[16] = "portada.bmp";
+//char file_name[16] = "portada.bmp";
+char file_name[FILE_NUMBER][FILE_NAME_SIZE_MAX] ={{"portada.bmp"},{"menu.bmp"},{"UVC2min.bmp"}};
+
 
 uint16_t read_16(File fp)
 {
@@ -128,60 +134,56 @@ bool analysis_bpm_header(File fp)
 
 void draw_bmp_picture(File fp)
 {
-  uint16_t i,j,k,l,m=0;
+  uint16_t i,j,k,l,z,m=0;
   uint8_t bpm_data[PIXEL_NUMBER*3] = {0};
   uint16_t bpm_color[PIXEL_NUMBER];
   fp.seek(bmp_offset);
+
+//  Serial.print("Valor s_heigh:");
+//    Serial.println(s_heigh);
+//    Serial.print("Valor s_width:");
+//    Serial.println(s_width);
   for(i = 0;i < s_heigh;i++)
   {
+//    Serial.print("Valor i:");
+//    Serial.println(i);
     for(j = 0;j<s_width/PIXEL_NUMBER;j++)
     {
+//      Serial.print("Valor j:");
+//      Serial.println(j);
       m = 0;
       fp.read(bpm_data,PIXEL_NUMBER*3);
       for(k = 0;k<PIXEL_NUMBER;k++)
       {
+//       Serial.print("Valor k:");
+//        Serial.println(k);
         bpm_color[k]= my_lcd.Color_To_565(bpm_data[m+2], bpm_data[m+1], bpm_data[m+0]); //change to 565
         m +=3;
+        my_lcd.Set_Draw_color(bpm_color[k]);
+        my_lcd.Draw_Pixel(j*PIXEL_NUMBER+k,i);
+        //my_lcd.Draw_Pixel(i, j*PIXEL_NUMBER+k);
       }
-      for(l = 0;l<PIXEL_NUMBER;l++)
-      {
-        my_lcd.Set_Draw_color(bpm_color[l]);
-        //my_lcd.Draw_Pixel(j*PIXEL_NUMBER+l,i);
-        my_lcd.Draw_Pixel(i, j*PIXEL_NUMBER+l);
-      }    
      }
    }    
 }
 
-bool LoadPicFromSDCard()
+bool LoadPicFromSDCard(int iPic)
 {
   File bmp_file;
       
-  my_lcd.Fill_Screen(WHITE);
-  //Init SD_Card int 
-  pinMode(iCS, OUTPUT);
-  if (!SD.begin(iCS)) 
-  {
-    my_lcd.Set_Text_Back_colour(WHITE);
-    my_lcd.Set_Text_colour(BLUE);    
-    my_lcd.Set_Text_Size(1);
-    my_lcd.Print_String("SD Card Init fail!",0,0);
-    return false;
-  }
-
-  bmp_file = SD.open(file_name);
+  bmp_file = SD.open(file_name[iPic]);
   if(!bmp_file)
       {
           my_lcd.Set_Text_Back_colour(WHITE);
           my_lcd.Set_Text_colour(BLUE);    
-          my_lcd.Set_Text_Size(1);
+          my_lcd.Set_Text_Size(3);
           my_lcd.Print_String("didnt find BMPimage!",0,10);
           return false;
       } else if (!analysis_bpm_header(bmp_file))
       {  
           my_lcd.Set_Text_Back_colour(WHITE);
           my_lcd.Set_Text_colour(BLUE);    
-          my_lcd.Set_Text_Size(1);
+          my_lcd.Set_Text_Size(3);
           my_lcd.Print_String("bad bmp picture!",0,0);
           return false;
       } else
@@ -197,9 +199,20 @@ void setup()
 {
    Serial.begin(9600);
    my_lcd.Init_LCD();
-   Serial.println(my_lcd.Read_ID(), HEX);
-   my_lcd.Fill_Screen(MAGENTA);
+   //Serial.println(my_lcd.Read_ID(), HEX);
    pinMode(13, OUTPUT);
+  
+   //Init SD_Card int 
+   pinMode(iCS, OUTPUT);
+   my_lcd.Fill_Screen(BLACK);
+   if (!SD.begin(iCS)) 
+   {
+    my_lcd.Set_Text_Back_colour(BLACK);
+    my_lcd.Set_Text_colour(BLUE);    
+    my_lcd.Set_Text_Size(3);
+    my_lcd.Print_String("SD Card Init fail!",0,0);
+    return false;
+  }
 }
 
 void loop() 
@@ -207,7 +220,7 @@ void loop()
     //Load Picture from SDCard
     if (bbmpOpem == false)
     {
-      bbmpOpem = LoadPicFromSDCard();
+      bbmpOpem = LoadPicFromSDCard(PORTADA);
     }
 
     digitalWrite(13, HIGH);
@@ -217,6 +230,6 @@ void loop()
     pinMode(YP, OUTPUT);
     if (p.z > MINPRESSURE && p.z < MAXPRESSURE) 
     {
-      my_lcd.Fill_Screen(BLACK);
+      bbmpOpem = LoadPicFromSDCard(MENU);
     }
 }
