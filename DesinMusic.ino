@@ -243,7 +243,9 @@ void loop()
     {
       if (bMenuOpen == false)
       {
-        bMenuOpen = LoadPicFromSDCard(MENU);  
+        bMenuOpen = LoadPicFromSDCard(MENU);
+        p.x = 0;  
+        p.y = 0;
       }
       p.x = map(p.x, TS_MINX, TS_MAXX, my_lcd.Get_Display_Width(), 0);
       p.y = map(p.y, TS_MINY, TS_MAXY, my_lcd.Get_Display_Height(),0);
@@ -275,6 +277,52 @@ void loop()
       my_lcd.Draw_Line(185, 365, 185, 400); //tercera linea vertical de la segunda fila de uvc entre los numeros 7 y 10
       
       my_lcd.Draw_Line(260, 165, 260, 400); //ultima linea vertical que es común a todas las areas
-
+      //void Draw_Line(int16_t x1, int16_t y1, int16_t x2, int16_t y2);
+      if (((p.x >= 60) && (p.x <= 135)) && ((p.y >= 165) && (p.y <= 200)))
+      {
+        //estoy en dos minutos UVC
+        Serial.println("estoy en DOS minutos UVC");
+        delay(5000);
+      } else if (((p.x >= 135) && (p.x <= 195)) && ((p.y >= 165) && (p.y <= 200)))
+      {
+        //estoy en tres minutos UVC
+        Serial.println("estoy en TRES minutos UVC");
+        delay(5000);
+      } else if (((p.x >= 195) && (p.x <= 260)) && ((p.y >= 165) && (p.y <= 200)))
+      {
+        //estoy en cuatro minutos UVC
+        Serial.println("estoy en CUATRO minutos UVC");
+        delay(5000);
+      } else if (((p.x >= 60) && (p.x <= 135)) && ((p.y >= 330) && (p.y <= 365)))
+      {
+        //estoy en dos minutos ozono
+        Serial.println("estoy en DOS minutos OZONO");
+        delay(5000);
+      } else if (((p.x >= 135) && (p.x <= 195)) && ((p.y >= 330) && (p.y <= 365)))
+      {
+        //estoy en tres minutos OZONO
+        Serial.println("estoy en TRES minutos OZONO");
+        delay(5000);
+      } else if (((p.x >= 195) && (p.x <= 260)) && ((p.y >= 330) && (p.y <= 365)))
+      {
+        //estoy en cuatro minutos OZONO
+        Serial.println("estoy en CUATRO minutos OZONO");
+        delay(5000);
+      } else if (((p.x >= 60) && (p.x <= 125)) && ((p.y >= 200) && (p.y <= 235)))
+      {
+        //estoy en 5 minutos UVC
+        Serial.println("estoy en CINCO minutos UVC");
+        delay(5000);
+      } else if (((p.x >= 125) && (p.x <= 185)) && ((p.y >= 200) && (p.y <= 235)))
+      {
+        //estoy en 7 minutos UVC
+        Serial.println("estoy en SIETE minutos UVC");
+        delay(5000);
+      }/* else if (((p.x >= 185) && (p.x <= 260)) && ((p.y >= 200) && (p.y <= 235)))
+      {
+        //estoy en 10 minutos UVC
+        Serial.println("estoy en DIEZ minutos UVC");
+        delay(5000);
+      }  */     
     }
 }
