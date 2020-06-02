@@ -253,5 +253,28 @@ void loop()
       Serial.print("p.y DESPUES del map: ");
       Serial.println(p.y); //105
       /* MOSTRAR ESTO EN EL PUERTO SERIE NOS INDICA EN QUÉ ZONA ESTÁN LOS PIXELES QUE SE ESTÁN TOCANDO EN LA PANTALLA*/
+      my_lcd.Set_Draw_color(WHITE);
+      my_lcd.Draw_Line(60, 165, 260, 165); //primera linea horizontal
+      my_lcd.Draw_Line(60, 200, 260, 200); //segunda linea horizontal
+      my_lcd.Draw_Line(60, 235, 260, 235); //tercera linea horizontal
+      
+      my_lcd.Draw_Line(60, 330, 260, 330); //cuarta linea horizontal
+      my_lcd.Draw_Line(60, 365, 260, 365); //quinta linea horizontal
+      my_lcd.Draw_Line(60, 400, 260, 400); //sexta linea horizontal
+      
+      my_lcd.Draw_Line(60, 165, 60, 400); //primera linea vertical que es común a todas las areas
+      
+      my_lcd.Draw_Line(135, 165, 135, 200); //segunda linea vertical de la primera fila de uvc entre los numeros 2 y 3
+      my_lcd.Draw_Line(195, 165, 195, 200); //tercera linea vertical de la primera fila de uvc entre los numeros 3 y 4
+      my_lcd.Draw_Line(125, 200, 125, 235); //segunda linea vertical de la segunda fila de uvc entre los numeros 5 y 7
+      my_lcd.Draw_Line(185, 200, 185, 235); //tercera linea vertical de la segunda fila de uvc entre los numeros 7 y 10
+
+      my_lcd.Draw_Line(135, 330, 135, 365); //segunda linea vertical de la primera fila de uvc entre los numeros 2 y 3
+      my_lcd.Draw_Line(195, 330, 195, 365); //tercera linea vertical de la primera fila de uvc entre los numeros 3 y 4
+      my_lcd.Draw_Line(125, 365, 125, 400); //segunda linea vertical de la segunda fila de uvc entre los numeros 5 y 7
+      my_lcd.Draw_Line(185, 365, 185, 400); //tercera linea vertical de la segunda fila de uvc entre los numeros 7 y 10
+      
+      my_lcd.Draw_Line(260, 165, 260, 400); //ultima linea vertical que es común a todas las areas
+
     }
 }
