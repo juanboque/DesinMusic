@@ -34,11 +34,19 @@
 #include <LCDWIKI_GUI.h> //Core graphics library
 #include <LCDWIKI_KBV.h> //Hardware-specific library
 
+
 //if the IC model is known or the modules is unreadable,you can use this constructed function
 //LCDWIKI_KBV my_lcd(ILI9341,A3,A2,A1,A0,A4); //model,cs,cd,wr,rd,reset
 LCDWIKI_KBV my_lcd(ILI9486,A3,A2,A1,A0,A4); //model,cs,cd,wr,rd,reset
 //if the IC model is not known and the modules is readable,you can use this constructed function
 //LCDWIKI_KBV my_lcd(320,480,A3,A2,A1,A0,A4);//width,height,cs,cd,wr,rd,reset
+
+//param calibration from kbv
+#define TS_MINX 906
+#define TS_MAXX 116
+
+#define TS_MINY 92 
+#define TS_MAXY 952
 
 #define BLACK   0x0000
 #define BLUE    0x001F
@@ -73,7 +81,8 @@ uint16_t s_width = my_lcd.Get_Display_Width();
 uint16_t s_heigh = my_lcd.Get_Display_Height();
 //int16_t PIXEL_NUMBER;
 
-bool bbmpOpem = false; //to open bmp only once
+bool bPortadaOpen = false; //to open bmp only once
+bool bMenuOpen = false; //to open bmp only once
 int iCS = 10; //Chip Select SPI UNO
 //int iCS = 53; //Chip Select SPI MEGA
 
@@ -199,15 +208,15 @@ void setup()
 {
    Serial.begin(9600);
    my_lcd.Init_LCD();
-   //Serial.println(my_lcd.Read_ID(), HEX);
+   Serial.println(my_lcd.Read_ID(), HEX);
    pinMode(13, OUTPUT);
   
    //Init SD_Card int 
    pinMode(iCS, OUTPUT);
-   my_lcd.Fill_Screen(BLACK);
+   my_lcd.Fill_Screen(WHITE);
    if (!SD.begin(iCS)) 
    {
-    my_lcd.Set_Text_Back_colour(BLACK);
+    my_lcd.Set_Text_Back_colour(WHITE);
     my_lcd.Set_Text_colour(BLUE);    
     my_lcd.Set_Text_Size(3);
     my_lcd.Print_String("SD Card Init fail!",0,0);
@@ -217,19 +226,32 @@ void setup()
 
 void loop() 
 {
-    //Load Picture from SDCard
-    if (bbmpOpem == false)
-    {
-      bbmpOpem = LoadPicFromSDCard(PORTADA);
-    }
-
     digitalWrite(13, HIGH);
-    TSPoint p = ts.getPoint(); //control touch panel
+    TSPoint p = ts.getPoint();
     digitalWrite(13, LOW);
     pinMode(XM, OUTPUT);
     pinMode(YP, OUTPUT);
+    
+    //Load Picture from SDCard
+    if (bPortadaOpen == false)
+    {
+      bPortadaOpen = LoadPicFromSDCard(PORTADA);
+    }
+
+
     if (p.z > MINPRESSURE && p.z < MAXPRESSURE) 
     {
-      bbmpOpem = LoadPicFromSDCard(MENU);
+      if (bMenuOpen == false)
+      {
+        bMenuOpen = LoadPicFromSDCard(MENU);  
+      }
+      p.x = map(p.x, TS_MINX, TS_MAXX, my_lcd.Get_Display_Width(), 0);
+      p.y = map(p.y, TS_MINY, TS_MAXY, my_lcd.Get_Display_Height(),0);
+      /* MOSTRAR ESTO EN EL PUERTO SERIE NOS INDICA EN QUÉ ZONA ESTÁN LOS PIXELES QUE SE ESTÁN TOCANDO EN LA PANTALLA*/
+      Serial.print("p.x DESPUES del map: ");
+      Serial.println(p.x); //105
+      Serial.print("p.y DESPUES del map: ");
+      Serial.println(p.y); //105
+      /* MOSTRAR ESTO EN EL PUERTO SERIE NOS INDICA EN QUÉ ZONA ESTÁN LOS PIXELES QUE SE ESTÁN TOCANDO EN LA PANTALLA*/
     }
 }
