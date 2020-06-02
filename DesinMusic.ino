@@ -318,11 +318,26 @@ void loop()
         //estoy en 7 minutos UVC
         Serial.println("estoy en SIETE minutos UVC");
         delay(5000);
-      }/* else if (((p.x >= 185) && (p.x <= 260)) && ((p.y >= 200) && (p.y <= 235)))
+      } else if (((p.x >= 185) && (p.x <= 260)) && ((p.y >= 200) && (p.y <= 235)))
       {
         //estoy en 10 minutos UVC
         Serial.println("estoy en DIEZ minutos UVC");
         delay(5000);
-      }  */     
+      } else if (((p.x >= 60) && (p.x <= 125)) && ((p.y >= 365) && (p.y <= 400)))
+      {
+        //estoy en 5 minutos OZONO
+        Serial.println("estoy en CINCO minutos OZONO");
+        delay(5000);
+      } else if (((p.x >= 125) && (p.x <= 185)) && ((p.y >= 365) && (p.y <= 400)))
+      {
+        //estoy en 7 minutos OZONO
+        Serial.println("estoy en SIETE minutos OZONO");
+        delay(5000);
+      } else if (((p.x >= 185) && (p.x <= 260)) && ((p.y >= 365) && (p.y <= 400)))
+      {
+        //estoy en 10 minutos OZONO
+        Serial.println("estoy en DIEZ minutos OZONO");
+        delay(5000);
+      }           
     }
 }
