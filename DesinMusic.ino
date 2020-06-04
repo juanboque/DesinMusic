@@ -52,6 +52,7 @@ LCDWIKI_KBV my_lcd(ILI9486,A3,A2,A1,A0,A4); //model,cs,cd,wr,rd,reset
 #define BLUE    0x001F
 #define RED     0xF800
 #define GREEN   0x07E0
+#define GREY    0x4444
 #define CYAN    0x07FF
 #define MAGENTA 0xF81F
 #define YELLOW  0xFFE0
@@ -63,6 +64,8 @@ LCDWIKI_KBV my_lcd(ILI9486,A3,A2,A1,A0,A4); //model,cs,cd,wr,rd,reset
 #define PORTADA 0
 #define MENU 1
 #define UVC2MIN 2
+
+
 
 #define YP A3  // must be an analog pin, use "An" notation!
 #define XM A2  // must be an analog pin, use "An" notation!
@@ -178,15 +181,15 @@ void draw_bmp_picture(File fp)
 
 bool LoadPicFromSDCard(int iPic)
 {
-  File bmp_file;
+      File bmp_file;
       
-  bmp_file = SD.open(file_name[iPic]);
-  if(!bmp_file)
+      bmp_file = SD.open(file_name[iPic]);
+      if(!bmp_file)
       {
           my_lcd.Set_Text_Back_colour(WHITE);
           my_lcd.Set_Text_colour(BLUE);    
           my_lcd.Set_Text_Size(3);
-          my_lcd.Print_String("didnt find BMPimage!",0,10);
+          my_lcd.Print_String("didnt find BMP!",0,30);
           return false;
       } else if (!analysis_bpm_header(bmp_file))
       {  
@@ -204,12 +207,45 @@ bool LoadPicFromSDCard(int iPic)
 
 }
 
+void LoadMenu(int iMinuteMode)
+{
+    switch (iMinuteMode) {
+      case UVC2MIN:
+          //debería ser un procedimiento
+          my_lcd.Set_Draw_color(BLACK);
+          my_lcd.Fill_Round_Rectangle(30, 165, 290, 400, 5);
+          my_lcd.Set_Text_Mode(1);
+          my_lcd.Set_Text_Size(9);
+          my_lcd.Set_Text_colour(WHITE);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Print_String("2",85, 175);
+          my_lcd.Set_Text_Size(4);
+          my_lcd.Print_String("MIN",160, 210);
+          my_lcd.Set_Text_colour(WHITE);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Set_Text_Size(5);
+          my_lcd.Print_String("INICIAR",55, 290);
+          my_lcd.Set_Text_colour(GREY);
+          my_lcd.Print_String("VOLVER",75, 355);
+          
+          //show_string("2 min",60,175 ,5,WHITE, BLACK,1);
+      break;
+//      case label2:
+//        // statements
+//      break;
+      default:
+        // statements
+      break;
+    }
+  
+}
+
 void setup() 
 {
    Serial.begin(9600);
    my_lcd.Init_LCD();
    Serial.println(my_lcd.Read_ID(), HEX);
-   pinMode(13, OUTPUT);
+   pinMode(13, OUTPUT);//ardunion uno es un 13
   
    //Init SD_Card int 
    pinMode(iCS, OUTPUT);
@@ -226,9 +262,9 @@ void setup()
 
 void loop() 
 {
-    digitalWrite(13, HIGH);
+    digitalWrite(13, HIGH); //ardunion uno es un 13
     TSPoint p = ts.getPoint();
-    digitalWrite(13, LOW);
+    digitalWrite(13, LOW); //ardunion uno es un 13
     pinMode(XM, OUTPUT);
     pinMode(YP, OUTPUT);
     
@@ -250,94 +286,96 @@ void loop()
       p.x = map(p.x, TS_MINX, TS_MAXX, my_lcd.Get_Display_Width(), 0);
       p.y = map(p.y, TS_MINY, TS_MAXY, my_lcd.Get_Display_Height(),0);
       /* MOSTRAR ESTO EN EL PUERTO SERIE NOS INDICA EN QUÉ ZONA ESTÁN LOS PIXELES QUE SE ESTÁN TOCANDO EN LA PANTALLA*/
-      Serial.print("p.x DESPUES del map: ");
-      Serial.println(p.x); //105
-      Serial.print("p.y DESPUES del map: ");
-      Serial.println(p.y); //105
+//      Serial.print("p.x DESPUES del map: ");
+//      Serial.println(p.x); //105
+//      Serial.print("p.y DESPUES del map: ");
+//      Serial.println(p.y); //105
       /* MOSTRAR ESTO EN EL PUERTO SERIE NOS INDICA EN QUÉ ZONA ESTÁN LOS PIXELES QUE SE ESTÁN TOCANDO EN LA PANTALLA*/
-      my_lcd.Set_Draw_color(WHITE);
-      my_lcd.Draw_Line(60, 165, 260, 165); //primera linea horizontal
-      my_lcd.Draw_Line(60, 200, 260, 200); //segunda linea horizontal
-      my_lcd.Draw_Line(60, 235, 260, 235); //tercera linea horizontal
-      
-      my_lcd.Draw_Line(60, 330, 260, 330); //cuarta linea horizontal
-      my_lcd.Draw_Line(60, 365, 260, 365); //quinta linea horizontal
-      my_lcd.Draw_Line(60, 400, 260, 400); //sexta linea horizontal
-      
-      my_lcd.Draw_Line(60, 165, 60, 400); //primera linea vertical que es común a todas las areas
-      
-      my_lcd.Draw_Line(135, 165, 135, 200); //segunda linea vertical de la primera fila de uvc entre los numeros 2 y 3
-      my_lcd.Draw_Line(195, 165, 195, 200); //tercera linea vertical de la primera fila de uvc entre los numeros 3 y 4
-      my_lcd.Draw_Line(125, 200, 125, 235); //segunda linea vertical de la segunda fila de uvc entre los numeros 5 y 7
-      my_lcd.Draw_Line(185, 200, 185, 235); //tercera linea vertical de la segunda fila de uvc entre los numeros 7 y 10
-
-      my_lcd.Draw_Line(135, 330, 135, 365); //segunda linea vertical de la primera fila de uvc entre los numeros 2 y 3
-      my_lcd.Draw_Line(195, 330, 195, 365); //tercera linea vertical de la primera fila de uvc entre los numeros 3 y 4
-      my_lcd.Draw_Line(125, 365, 125, 400); //segunda linea vertical de la segunda fila de uvc entre los numeros 5 y 7
-      my_lcd.Draw_Line(185, 365, 185, 400); //tercera linea vertical de la segunda fila de uvc entre los numeros 7 y 10
-      
-      my_lcd.Draw_Line(260, 165, 260, 400); //ultima linea vertical que es común a todas las areas
+//      my_lcd.Set_Draw_color(RED);
+//      my_lcd.Draw_Line(60, 165, 260, 165); //primera linea horizontal
+//      my_lcd.Draw_Line(60, 200, 260, 200); //segunda linea horizontal
+//      my_lcd.Draw_Line(60, 235, 260, 235); //tercera linea horizontal
+//      
+//      my_lcd.Draw_Line(60, 330, 260, 330); //cuarta linea horizontal
+//      my_lcd.Draw_Line(60, 365, 260, 365); //quinta linea horizontal
+//      my_lcd.Draw_Line(60, 400, 260, 400); //sexta linea horizontal
+//      
+//      my_lcd.Draw_Line(60, 165, 60, 400); //primera linea vertical que es común a todas las areas
+//      
+//      my_lcd.Draw_Line(135, 165, 135, 200); //segunda linea vertical de la primera fila de uvc entre los numeros 2 y 3
+//      my_lcd.Draw_Line(195, 165, 195, 200); //tercera linea vertical de la primera fila de uvc entre los numeros 3 y 4
+//      my_lcd.Draw_Line(125, 200, 125, 235); //segunda linea vertical de la segunda fila de uvc entre los numeros 5 y 7
+//      my_lcd.Draw_Line(185, 200, 185, 235); //tercera linea vertical de la segunda fila de uvc entre los numeros 7 y 10
+//
+//      my_lcd.Draw_Line(135, 330, 135, 365); //segunda linea vertical de la primera fila de uvc entre los numeros 2 y 3
+//      my_lcd.Draw_Line(195, 330, 195, 365); //tercera linea vertical de la primera fila de uvc entre los numeros 3 y 4
+//      my_lcd.Draw_Line(125, 365, 125, 400); //segunda linea vertical de la segunda fila de uvc entre los numeros 5 y 7
+//      my_lcd.Draw_Line(185, 365, 185, 400); //tercera linea vertical de la segunda fila de uvc entre los numeros 7 y 10
+//      
+//      my_lcd.Draw_Line(260, 165, 260, 400); //ultima linea vertical que es común a todas las areas
       //void Draw_Line(int16_t x1, int16_t y1, int16_t x2, int16_t y2);
       if (((p.x >= 60) && (p.x <= 135)) && ((p.y >= 165) && (p.y <= 200)))
       {
-        //estoy en dos minutos UVC
-        Serial.println("estoy en DOS minutos UVC");
-        delay(5000);
+          LoadMenu(UVC2MIN);
+//      
+//estoy en dos minutos UVC
+//        Serial.println("estoy en DOS minutos UVC");
+//        delay(5000);
       } else if (((p.x >= 135) && (p.x <= 195)) && ((p.y >= 165) && (p.y <= 200)))
       {
-        //estoy en tres minutos UVC
-        Serial.println("estoy en TRES minutos UVC");
-        delay(5000);
+//        //estoy en tres minutos UVC
+//        Serial.println("estoy en TRES minutos UVC");
+//        delay(5000);
       } else if (((p.x >= 195) && (p.x <= 260)) && ((p.y >= 165) && (p.y <= 200)))
       {
-        //estoy en cuatro minutos UVC
-        Serial.println("estoy en CUATRO minutos UVC");
-        delay(5000);
+//        //estoy en cuatro minutos UVC
+//        Serial.println("estoy en CUATRO minutos UVC");
+//        delay(5000);
       } else if (((p.x >= 60) && (p.x <= 135)) && ((p.y >= 330) && (p.y <= 365)))
       {
-        //estoy en dos minutos ozono
-        Serial.println("estoy en DOS minutos OZONO");
-        delay(5000);
+//        //estoy en dos minutos ozono
+//        Serial.println("estoy en DOS minutos OZONO");
+//        delay(5000);
       } else if (((p.x >= 135) && (p.x <= 195)) && ((p.y >= 330) && (p.y <= 365)))
       {
-        //estoy en tres minutos OZONO
-        Serial.println("estoy en TRES minutos OZONO");
-        delay(5000);
+//        //estoy en tres minutos OZONO
+//        Serial.println("estoy en TRES minutos OZONO");
+//        delay(5000);
       } else if (((p.x >= 195) && (p.x <= 260)) && ((p.y >= 330) && (p.y <= 365)))
       {
-        //estoy en cuatro minutos OZONO
-        Serial.println("estoy en CUATRO minutos OZONO");
-        delay(5000);
+//        //estoy en cuatro minutos OZONO
+//        Serial.println("estoy en CUATRO minutos OZONO");
+//        delay(5000);
       } else if (((p.x >= 60) && (p.x <= 125)) && ((p.y >= 200) && (p.y <= 235)))
       {
-        //estoy en 5 minutos UVC
-        Serial.println("estoy en CINCO minutos UVC");
-        delay(5000);
+//        //estoy en 5 minutos UVC
+//        Serial.println("estoy en CINCO minutos UVC");
+//        delay(5000);
       } else if (((p.x >= 125) && (p.x <= 185)) && ((p.y >= 200) && (p.y <= 235)))
       {
-        //estoy en 7 minutos UVC
-        Serial.println("estoy en SIETE minutos UVC");
-        delay(5000);
+//        //estoy en 7 minutos UVC
+//        Serial.println("estoy en SIETE minutos UVC");
+//        delay(5000);
       } else if (((p.x >= 185) && (p.x <= 260)) && ((p.y >= 200) && (p.y <= 235)))
       {
         //estoy en 10 minutos UVC
-        Serial.println("estoy en DIEZ minutos UVC");
-        delay(5000);
+//        Serial.println("estoy en DIEZ minutos UVC");
+//        delay(5000);
       } else if (((p.x >= 60) && (p.x <= 125)) && ((p.y >= 365) && (p.y <= 400)))
       {
         //estoy en 5 minutos OZONO
-        Serial.println("estoy en CINCO minutos OZONO");
-        delay(5000);
+//        Serial.println("estoy en CINCO minutos OZONO");
+//        delay(5000);
       } else if (((p.x >= 125) && (p.x <= 185)) && ((p.y >= 365) && (p.y <= 400)))
       {
         //estoy en 7 minutos OZONO
-        Serial.println("estoy en SIETE minutos OZONO");
-        delay(5000);
+     //   Serial.println("estoy en SIETE minutos OZONO");
+   //     delay(5000);
       } else if (((p.x >= 185) && (p.x <= 260)) && ((p.y >= 365) && (p.y <= 400)))
       {
         //estoy en 10 minutos OZONO
-        Serial.println("estoy en DIEZ minutos OZONO");
-        delay(5000);
-      }           
+      //  Serial.println("estoy en DIEZ minutos OZONO");
+ //       delay(5000);
+      }         
     }
 }
