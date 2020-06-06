@@ -52,7 +52,7 @@ LCDWIKI_KBV my_lcd(ILI9486,A3,A2,A1,A0,A4); //model,cs,cd,wr,rd,reset
 #define BLUE    0x001F
 #define RED     0xF800
 #define GREEN   0x07E0
-#define GREY    0x4444
+#define GREY    0xDDDD
 #define CYAN    0x07FF
 #define MAGENTA 0xF81F
 #define YELLOW  0xFFE0
@@ -61,6 +61,7 @@ LCDWIKI_KBV my_lcd(ILI9486,A3,A2,A1,A0,A4); //model,cs,cd,wr,rd,reset
 #define PIXEL_NUMBER  (my_lcd.Get_Display_Width()/4)
 #define FILE_NUMBER 3
 #define FILE_NAME_SIZE_MAX 20
+#define NO_SCREEN -1
 #define PORTADA 0
 #define MENU 1
 #define UVC2MIN 2
@@ -84,10 +85,15 @@ uint16_t s_width = my_lcd.Get_Display_Width();
 uint16_t s_heigh = my_lcd.Get_Display_Height();
 //int16_t PIXEL_NUMBER;
 
-bool bPortadaOpen = false; //to open bmp only once
-bool bMenuOpen = false; //to open bmp only once
+//bool bPortadaOpen = false; //to open bmp only once
+//bool bMenuOpen = false; //to open bmp only once
+//bool bUVC2MIN = false;
+int iPantalla = -1;
 int iCS = 10; //Chip Select SPI UNO
 //int iCS = 53; //Chip Select SPI MEGA
+String sTime;
+int iMin = 2;
+int iSecond = 00;
 
 //char file_name[16] = "portada.bmp";
 char file_name[FILE_NUMBER][FILE_NAME_SIZE_MAX] ={{"portada.bmp"},{"menu.bmp"},{"UVC2min.bmp"}};
@@ -179,7 +185,50 @@ void draw_bmp_picture(File fp)
    }    
 }
 
-bool LoadPicFromSDCard(int iPic)
+void CountDownStr(int *iMin, int *iSecond, String *sTime)
+{
+  
+  *sTime = *iMin;// + ":" + iSecond;
+  *sTime += ":";
+
+  if (*iSecond == 0)
+    *sTime += "00";
+  else if (*iSecond == 1)
+    *sTime += "01";
+  else if (*iSecond == 2)
+    *sTime += "02";
+  else if (*iSecond == 3)
+    *sTime += "03";
+  else if (*iSecond == 4)
+    *sTime += "04";
+  else if (*iSecond == 5)
+    *sTime += "05";
+  else if (*iSecond == 6)
+    *sTime += "06";
+  else if (*iSecond == 7)
+    *sTime += "07";
+  else if (*iSecond == 8)
+    *sTime += "08";
+  else if (*iSecond == 9)
+    *sTime += "09";
+  else
+    *sTime += *iSecond;
+
+  if (*iSecond == 0)
+  {
+    *iSecond = 59;
+    *iMin = *iMin - 1;
+  }
+  else
+    *iSecond = *iSecond - 1;
+  
+//  if ((*iMin == 0) && (*iSecond == 0))
+//    *sTime += "0:00";
+
+//  delay(iDelay);
+}
+
+void LoadPicFromSDCard(int iPic)
 {
       File bmp_file;
       
@@ -190,19 +239,19 @@ bool LoadPicFromSDCard(int iPic)
           my_lcd.Set_Text_colour(BLUE);    
           my_lcd.Set_Text_Size(3);
           my_lcd.Print_String("didnt find BMP!",0,30);
-          return false;
+         // return false;
       } else if (!analysis_bpm_header(bmp_file))
       {  
           my_lcd.Set_Text_Back_colour(WHITE);
           my_lcd.Set_Text_colour(BLUE);    
           my_lcd.Set_Text_Size(3);
           my_lcd.Print_String("bad bmp picture!",0,0);
-          return false;
+         // return false;
       } else
       {
         draw_bmp_picture(bmp_file);
         bmp_file.close(); 
-        return true;  
+       // return true;  
       }  
 
 }
@@ -269,17 +318,23 @@ void loop()
     pinMode(YP, OUTPUT);
     
     //Load Picture from SDCard
-    if (bPortadaOpen == false)
+    //if (bPortadaOpen == false)
+    if (iPantalla == NO_SCREEN)
     {
-      bPortadaOpen = LoadPicFromSDCard(PORTADA);
+      //bPortadaOpen = LoadPicFromSDCard(PORTADA);
+      LoadPicFromSDCard(PORTADA);
+      iPantalla = PORTADA;
     }
 
 
     if (p.z > MINPRESSURE && p.z < MAXPRESSURE) 
     {
-      if (bMenuOpen == false)
+      //if ((bMenuOpen == false) && (bUVC2MIN == false))
+      if (iPantalla == PORTADA)
       {
-        bMenuOpen = LoadPicFromSDCard(MENU);
+        //bMenuOpen = LoadPicFromSDCard(MENU);
+        LoadPicFromSDCard(MENU);
+        iPantalla = MENU;
         p.x = 0;  
         p.y = 0;
       }
@@ -314,42 +369,106 @@ void loop()
 //      
 //      my_lcd.Draw_Line(260, 165, 260, 400); //ultima linea vertical que es común a todas las areas
       //void Draw_Line(int16_t x1, int16_t y1, int16_t x2, int16_t y2);
-      if (((p.x >= 60) && (p.x <= 135)) && ((p.y >= 165) && (p.y <= 200)))
-      {
-          LoadMenu(UVC2MIN);
-      } else if (((p.x >= 135) && (p.x <= 195)) && ((p.y >= 165) && (p.y <= 200)))
-      {
-//        //estoy en tres minutos UVC
-      } else if (((p.x >= 195) && (p.x <= 260)) && ((p.y >= 165) && (p.y <= 200)))
-      {
-//        //estoy en cuatro minutos UVC
-      } else if (((p.x >= 60) && (p.x <= 135)) && ((p.y >= 330) && (p.y <= 365)))
-      {
-//        //estoy en dos minutos ozono
-      } else if (((p.x >= 135) && (p.x <= 195)) && ((p.y >= 330) && (p.y <= 365)))
-      {
-//        //estoy en tres minutos OZONO
-      } else if (((p.x >= 195) && (p.x <= 260)) && ((p.y >= 330) && (p.y <= 365)))
-      {
-//        //estoy en cuatro minutos OZONO
-      } else if (((p.x >= 60) && (p.x <= 125)) && ((p.y >= 200) && (p.y <= 235)))
-      {
-//        //estoy en 5 minutos UVC
-      } else if (((p.x >= 125) && (p.x <= 185)) && ((p.y >= 200) && (p.y <= 235)))
-      {
-//        //estoy en 7 minutos UVC
-      } else if (((p.x >= 185) && (p.x <= 260)) && ((p.y >= 200) && (p.y <= 235)))
-      {
-        //estoy en 10 minutos UVC
-      } else if (((p.x >= 60) && (p.x <= 125)) && ((p.y >= 365) && (p.y <= 400)))
-      {
-        //estoy en 5 minutos OZONO
-      } else if (((p.x >= 125) && (p.x <= 185)) && ((p.y >= 365) && (p.y <= 400)))
-      {
-        //estoy en 7 minutos OZONO
-      } else if (((p.x >= 185) && (p.x <= 260)) && ((p.y >= 365) && (p.y <= 400)))
-      {
-        //estoy en 10 minutos OZONO
-      }         
+      if (iPantalla == MENU)
+      {// Aquí estoy con el menú activo. //debería ser una función con parámetros de entrada las coordenadas y salida la opcion marcada.
+        if (((p.x >= 60) && (p.x <= 135)) && ((p.y >= 165) && (p.y <= 200)))
+        {
+            LoadMenu(UVC2MIN);
+            iPantalla = UVC2MIN;
+            //bUVC2MIN = true;
+            //bMenuOpen = false;
+        } else if (((p.x >= 135) && (p.x <= 195)) && ((p.y >= 165) && (p.y <= 200)))
+        {
+  //        //estoy en tres minutos UVC
+        } else if (((p.x >= 195) && (p.x <= 260)) && ((p.y >= 165) && (p.y <= 200)))
+        {
+  //        //estoy en cuatro minutos UVC
+        } else if (((p.x >= 60) && (p.x <= 135)) && ((p.y >= 330) && (p.y <= 365)))
+        {
+  //        //estoy en dos minutos ozono
+        } else if (((p.x >= 135) && (p.x <= 195)) && ((p.y >= 330) && (p.y <= 365)))
+        {
+  //        //estoy en tres minutos OZONO
+        } else if (((p.x >= 195) && (p.x <= 260)) && ((p.y >= 330) && (p.y <= 365)))
+        {
+  //        //estoy en cuatro minutos OZONO
+        } else if (((p.x >= 60) && (p.x <= 125)) && ((p.y >= 200) && (p.y <= 235)))
+        {
+  //        //estoy en 5 minutos UVC
+        } else if (((p.x >= 125) && (p.x <= 185)) && ((p.y >= 200) && (p.y <= 235)))
+        {
+  //        //estoy en 7 minutos UVC
+        } else if (((p.x >= 185) && (p.x <= 260)) && ((p.y >= 200) && (p.y <= 235)))
+        {
+          //estoy en 10 minutos UVC
+        } else if (((p.x >= 60) && (p.x <= 125)) && ((p.y >= 365) && (p.y <= 400)))
+        {
+          //estoy en 5 minutos OZONO
+        } else if (((p.x >= 125) && (p.x <= 185)) && ((p.y >= 365) && (p.y <= 400)))
+        {
+          //estoy en 7 minutos OZONO
+        } else if (((p.x >= 185) && (p.x <= 260)) && ((p.y >= 365) && (p.y <= 400)))
+        {
+          //estoy en 10 minutos OZONO
+        }
+      } else if (iPantalla == UVC2MIN)
+      {//chequeo coordenadas para saber si inicia cuenta atrás o cancela. Debería ser una función
+        //my_lcd.Set_Draw_color(RED);
+        //my_lcd.Draw_Line(50, 270, 275, 270); //primera linea horizontal    
+        //my_lcd.Draw_Line(50, 340, 275, 340); //primera linea horizontal    
+        //my_lcd.Draw_Line(50, 405, 275, 405); //primera linea horizontal  
+        if (((p.x >= 50) && (p.x <= 275)) && ((p.y >= 340) && (p.y <= 405)))
+        {
+          //estando en la pantalla de iniciar o volver he apretado VOLVER, cargamos imagen menu again
+          my_lcd.Set_Text_Size(5);
+          my_lcd.Set_Text_colour(BLUE);
+          my_lcd.Print_String("VOLVER",75, 355);
+          LoadPicFromSDCard(MENU);
+          iPantalla = MENU;
+        } else if (((p.x >= 50) && (p.x <= 275)) && ((p.y >= 270) && (p.y <= 340)))
+        {
+          //estando en la pantalla de iniciar o volver he apretado INICAR, iniciamos la cuenta, paramos al pasar dso minutos o al pulsar volver
+          my_lcd.Set_Text_Size(5);
+          my_lcd.Set_Text_colour(BLUE);
+          my_lcd.Print_String("INICIAR",55, 290);
+          my_lcd.Set_Text_colour(WHITE);
+          //my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Set_Draw_color(BLACK);
+          my_lcd.Fill_Round_Rectangle(30, 165, 290, 260, 5);
+          my_lcd.Set_Text_Mode(1);
+          my_lcd.Set_Text_Size(9);
+          my_lcd.Set_Text_colour(WHITE);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Set_Draw_color(BLACK);
+          my_lcd.Fill_Round_Rectangle(70, 355, 290, 400, 5);
+          my_lcd.Set_Text_Size(5);
+          my_lcd.Set_Text_colour(RED);
+          my_lcd.Print_String("STOP",110, 355);
+          my_lcd.Set_Text_Mode(1);
+          my_lcd.Set_Text_Size(9);
+          my_lcd.Set_Text_colour(WHITE);
+          my_lcd.Print_String("2:00",55, 185);
+          while ((iMin != 0) || (iSecond != 0))
+          {
+            my_lcd.Fill_Round_Rectangle(30, 165, 290, 260, 5);
+            CountDownStr(&iMin,&iSecond,&sTime);
+            my_lcd.Print_String(sTime,55, 185);  //la cadena str es la que va a ir cambiando!!!! habrá que hacer un strconcatena y bla, bla...
+            delay(975);
+          }
+          if ((iMin == 0) && (iSecond == 0))
+          {
+            my_lcd.Fill_Round_Rectangle(30, 165, 290, 260, 5);
+            my_lcd.Print_String("0:00",55, 185);  //la cadena str es la que va a ir cambiando!!!! habrá que hacer un strconcatena y bla, bla...            
+          }
+          my_lcd.Fill_Round_Rectangle(30, 165, 290, 400, 5);
+          my_lcd.Print_String("2:00",55, 185);
+          my_lcd.Set_Text_Size(5);
+          my_lcd.Set_Text_colour(WHITE);
+          my_lcd.Print_String("INICIAR",55, 290);
+          my_lcd.Set_Text_colour(GREY);
+          my_lcd.Print_String("VOLVER",75, 355);
+          iMin = 2; iSecond=0; //reset timer
+        }
+      }
     }
 }
