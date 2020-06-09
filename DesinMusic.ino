@@ -40,7 +40,6 @@
 LCDWIKI_KBV my_lcd(ILI9486,A3,A2,A1,A0,A4); //model,cs,cd,wr,rd,reset
 //if the IC model is not known and the modules is readable,you can use this constructed function
 //LCDWIKI_KBV my_lcd(320,480,A3,A2,A1,A0,A4);//width,height,cs,cd,wr,rd,reset
-
 //param calibration from kbv
 #define TS_MINX 906
 #define TS_MAXX 116
@@ -65,8 +64,7 @@ LCDWIKI_KBV my_lcd(ILI9486,A3,A2,A1,A0,A4); //model,cs,cd,wr,rd,reset
 #define PORTADA 0
 #define MENU 1
 #define UVC2MIN 2
-
-
+#define INTERVALO 1000
 
 #define YP A3  // must be an analog pin, use "An" notation!
 #define XM A2  // must be an analog pin, use "An" notation!
@@ -88,16 +86,15 @@ uint16_t s_heigh = my_lcd.Get_Display_Height();
 //bool bPortadaOpen = false; //to open bmp only once
 //bool bMenuOpen = false; //to open bmp only once
 //bool bUVC2MIN = false;
+bool bStop = false;
 int iPantalla = -1;
-int iCS = 10; //Chip Select SPI UNO
-//int iCS = 53; //Chip Select SPI MEGA
+//int iCS = 10; //Chip Select SPI UNO
+int iCS = 53; //Chip Select SPI MEGA
 String sTime;
 int iMin = 2;
 int iSecond = 00;
 
-//char file_name[16] = "portada.bmp";
 char file_name[FILE_NUMBER][FILE_NAME_SIZE_MAX] ={{"portada.bmp"},{"menu.bmp"},{"UVC2min.bmp"}};
-
 
 uint16_t read_16(File fp)
 {
@@ -221,11 +218,6 @@ void CountDownStr(int *iMin, int *iSecond, String *sTime)
   }
   else
     *iSecond = *iSecond - 1;
-  
-//  if ((*iMin == 0) && (*iSecond == 0))
-//    *sTime += "0:00";
-
-//  delay(iDelay);
 }
 
 void LoadPicFromSDCard(int iPic)
@@ -276,8 +268,6 @@ void LoadMenu(int iMinuteMode)
           my_lcd.Print_String("INICIAR",55, 290);
           my_lcd.Set_Text_colour(GREY);
           my_lcd.Print_String("VOLVER",75, 355);
-          
-          //show_string("2 min",60,175 ,5,WHITE, BLACK,1);
       break;
 //      case label2:
 //        // statements
@@ -295,6 +285,7 @@ void setup()
    my_lcd.Init_LCD();
    Serial.println(my_lcd.Read_ID(), HEX);
    pinMode(13, OUTPUT);//ardunion uno es un 13
+   pinMode(52, OUTPUT);//ardunion MEGA es un 52
   
    //Init SD_Card int 
    pinMode(iCS, OUTPUT);
@@ -312,16 +303,16 @@ void setup()
 void loop() 
 {
     digitalWrite(13, HIGH); //ardunion uno es un 13
+    digitalWrite(52, HIGH); //ardunion uno es un 13
     TSPoint p = ts.getPoint();
     digitalWrite(13, LOW); //ardunion uno es un 13
+    digitalWrite(52, LOW); //ardunion uno es un 13
     pinMode(XM, OUTPUT);
     pinMode(YP, OUTPUT);
     
     //Load Picture from SDCard
-    //if (bPortadaOpen == false)
     if (iPantalla == NO_SCREEN)
     {
-      //bPortadaOpen = LoadPicFromSDCard(PORTADA);
       LoadPicFromSDCard(PORTADA);
       iPantalla = PORTADA;
     }
@@ -329,10 +320,8 @@ void loop()
 
     if (p.z > MINPRESSURE && p.z < MAXPRESSURE) 
     {
-      //if ((bMenuOpen == false) && (bUVC2MIN == false))
       if (iPantalla == PORTADA)
       {
-        //bMenuOpen = LoadPicFromSDCard(MENU);
         LoadPicFromSDCard(MENU);
         iPantalla = MENU;
         p.x = 0;  
@@ -427,7 +416,7 @@ void loop()
           iPantalla = MENU;
         } else if (((p.x >= 50) && (p.x <= 275)) && ((p.y >= 270) && (p.y <= 340)))
         {
-          //estando en la pantalla de iniciar o volver he apretado INICAR, iniciamos la cuenta, paramos al pasar dso minutos o al pulsar volver
+          //estando en la pantalla de iniciar o volver he apretado INICAR, iniciamos la cuenta, paramos al pasar dso minutos o al pulsar STOP, tb hay que activar los LED UV-c
           my_lcd.Set_Text_Size(5);
           my_lcd.Set_Text_colour(BLUE);
           my_lcd.Print_String("INICIAR",55, 290);
@@ -448,12 +437,30 @@ void loop()
           my_lcd.Set_Text_Size(9);
           my_lcd.Set_Text_colour(WHITE);
           my_lcd.Print_String("2:00",55, 185);
-          while ((iMin != 0) || (iSecond != 0))
+          //while ((iMin != 0) || (iSecond != 0))
+          while (((iMin != 0) || (iSecond != 0)) && (!bStop))
           {
             my_lcd.Fill_Round_Rectangle(30, 165, 290, 260, 5);
             CountDownStr(&iMin,&iSecond,&sTime);
             my_lcd.Print_String(sTime,55, 185);  //la cadena str es la que va a ir cambiando!!!! habrá que hacer un strconcatena y bla, bla...
-            delay(975);
+            unsigned long currentMillis = millis();            
+            while (((millis() - currentMillis) <= INTERVALO) && (!bStop))
+            {
+                digitalWrite(13, HIGH); //ardunion uno es un 13
+                TSPoint p = ts.getPoint();
+                digitalWrite(13, LOW); //ardunion uno es un 13
+                pinMode(XM, OUTPUT);
+                pinMode(YP, OUTPUT);
+                p.x = map(p.x, TS_MINX, TS_MAXX, my_lcd.Get_Display_Width(), 0);
+                p.y = map(p.y, TS_MINY, TS_MAXY, my_lcd.Get_Display_Height(),0);
+                if (((p.x >= 50) && (p.x <= 275)) && ((p.y >= 340) && (p.y <= 405)))
+                {
+                  bStop = true;
+                  iMin = 0;
+                  iSecond = 0;
+                }
+            }
+            //delay(975);// sustituir este delay for while y que la pulsar stop se pare el contador y se apague el led
           }
           if ((iMin == 0) && (iSecond == 0))
           {
