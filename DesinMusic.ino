@@ -406,6 +406,9 @@ void loop()
         //my_lcd.Draw_Line(50, 270, 275, 270); //primera linea horizontal    
         //my_lcd.Draw_Line(50, 340, 275, 340); //primera linea horizontal    
         //my_lcd.Draw_Line(50, 405, 275, 405); //primera linea horizontal  
+        iMin = 2;
+        iSecond = 0;
+        bStop = false;
         if (((p.x >= 50) && (p.x <= 275)) && ((p.y >= 340) && (p.y <= 405)))
         {
           //estando en la pantalla de iniciar o volver he apretado VOLVER, cargamos imagen menu again
