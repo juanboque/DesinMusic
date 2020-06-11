@@ -73,6 +73,7 @@ LCDWIKI_KBV my_lcd(ILI9486,A3,A2,A1,A0,A4); //model,cs,cd,wr,rd,reset
 
 #define MINPRESSURE 10
 #define MAXPRESSURE 1000
+#define UV_C_LED 23
 // For better pressure precision, we need to know the resistance
 // between X+ and X- Use any multimeter to read it
 // For the one we're using, its 300 ohms across the X plate
@@ -286,7 +287,8 @@ void setup()
    Serial.println(my_lcd.Read_ID(), HEX);
    pinMode(13, OUTPUT);//ardunion uno es un 13
    pinMode(52, OUTPUT);//ardunion MEGA es un 52
-  
+   pinMode(UV_C_LED, OUTPUT);//ardunion MEGA es un 52
+   
    //Init SD_Card int 
    pinMode(iCS, OUTPUT);
    my_lcd.Fill_Screen(WHITE);
@@ -440,6 +442,7 @@ void loop()
           my_lcd.Set_Text_Size(9);
           my_lcd.Set_Text_colour(WHITE);
           my_lcd.Print_String("2:00",55, 185);
+          digitalWrite(UV_C_LED, HIGH); //turn on LED
           //while ((iMin != 0) || (iSecond != 0))
           while (((iMin != 0) || (iSecond != 0)) && (!bStop))
           {
@@ -461,6 +464,7 @@ void loop()
                   bStop = true;
                   iMin = 0;
                   iSecond = 0;
+                  digitalWrite(UV_C_LED, LOW); //turn off LED
                 }
             }
             //delay(975);// sustituir este delay for while y que la pulsar stop se pare el contador y se apague el led
@@ -469,6 +473,7 @@ void loop()
           {
             my_lcd.Fill_Round_Rectangle(30, 165, 290, 260, 5);
             my_lcd.Print_String("0:00",55, 185);  //la cadena str es la que va a ir cambiando!!!! habrá que hacer un strconcatena y bla, bla...            
+            digitalWrite(UV_C_LED, LOW); //turn off LED
           }
           my_lcd.Fill_Round_Rectangle(30, 165, 290, 400, 5);
           my_lcd.Print_String("2:00",55, 185);
