@@ -65,6 +65,10 @@ LCDWIKI_KBV my_lcd(ILI9486,A3,A2,A1,A0,A4); //model,cs,cd,wr,rd,reset
 #define MENU 1
 #define UVC2MIN 2
 #define UVC3MIN 3
+#define UVC4MIN 4
+#define UVC5MIN 5
+#define UVC7MIN 7
+#define UVC10MIN 10
 #define INTERVALO 1000
 
 #define YP A3  // must be an analog pin, use "An" notation!
@@ -290,6 +294,82 @@ void LoadMenu(int iMinuteMode)
           my_lcd.Set_Text_colour(GREY);
           my_lcd.Print_String("VOLVER",75, 355);
       break;
+      case UVC4MIN:
+        // statements
+        //debería ser un procedimiento: ShowMenu(UVC2MIN)
+          my_lcd.Set_Draw_color(BLACK);
+          my_lcd.Fill_Round_Rectangle(30, 165, 290, 400, 5);
+          my_lcd.Set_Text_Mode(1);
+          my_lcd.Set_Text_Size(9);
+          my_lcd.Set_Text_colour(WHITE);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Print_String("4",85, 175);
+          my_lcd.Set_Text_Size(4);
+          my_lcd.Print_String("MIN",160, 210);
+          my_lcd.Set_Text_colour(WHITE);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Set_Text_Size(5);
+          my_lcd.Print_String("INICIAR",55, 290);
+          my_lcd.Set_Text_colour(GREY);
+          my_lcd.Print_String("VOLVER",75, 355);
+      break;
+      case UVC5MIN:
+        // statements
+        //debería ser un procedimiento: ShowMenu(UVC2MIN)
+          my_lcd.Set_Draw_color(BLACK);
+          my_lcd.Fill_Round_Rectangle(30, 165, 290, 400, 5);
+          my_lcd.Set_Text_Mode(1);
+          my_lcd.Set_Text_Size(9);
+          my_lcd.Set_Text_colour(WHITE);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Print_String("5",85, 175);
+          my_lcd.Set_Text_Size(4);
+          my_lcd.Print_String("MIN",160, 210);
+          my_lcd.Set_Text_colour(WHITE);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Set_Text_Size(5);
+          my_lcd.Print_String("INICIAR",55, 290);
+          my_lcd.Set_Text_colour(GREY);
+          my_lcd.Print_String("VOLVER",75, 355);
+      break;
+      case UVC7MIN:
+        // statements
+        //debería ser un procedimiento: ShowMenu(UVC2MIN)
+          my_lcd.Set_Draw_color(BLACK);
+          my_lcd.Fill_Round_Rectangle(30, 165, 290, 400, 5);
+          my_lcd.Set_Text_Mode(1);
+          my_lcd.Set_Text_Size(9);
+          my_lcd.Set_Text_colour(WHITE);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Print_String("7",85, 175);
+          my_lcd.Set_Text_Size(4);
+          my_lcd.Print_String("MIN",160, 210);
+          my_lcd.Set_Text_colour(WHITE);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Set_Text_Size(5);
+          my_lcd.Print_String("INICIAR",55, 290);
+          my_lcd.Set_Text_colour(GREY);
+          my_lcd.Print_String("VOLVER",75, 355);
+      break;
+      case UVC10MIN:
+        // statements
+        //debería ser un procedimiento: ShowMenu(UVC2MIN)
+          my_lcd.Set_Draw_color(BLACK);
+          my_lcd.Fill_Round_Rectangle(30, 165, 290, 400, 5);
+          my_lcd.Set_Text_Mode(1);
+          my_lcd.Set_Text_Size(9);
+          my_lcd.Set_Text_colour(WHITE);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Print_String("10",60, 175);
+          my_lcd.Set_Text_Size(4);
+          my_lcd.Print_String("MIN",190, 210);
+          my_lcd.Set_Text_colour(WHITE);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Set_Text_Size(5);
+          my_lcd.Print_String("INICIAR",55, 290);
+          my_lcd.Set_Text_colour(GREY);
+          my_lcd.Print_String("VOLVER",75, 355);
+      break;
       default:
         // statements
       break;
@@ -396,6 +476,8 @@ void loop()
         } else if (((p.x >= 195) && (p.x <= 260)) && ((p.y >= 165) && (p.y <= 200)))
         {
   //        //estoy en cuatro minutos UVC
+            LoadMenu(UVC4MIN);
+            iPantalla = UVC4MIN;
         } else if (((p.x >= 60) && (p.x <= 135)) && ((p.y >= 330) && (p.y <= 365)))
         {
   //        //estoy en dos minutos ozono
@@ -408,12 +490,18 @@ void loop()
         } else if (((p.x >= 60) && (p.x <= 125)) && ((p.y >= 200) && (p.y <= 235)))
         {
   //        //estoy en 5 minutos UVC
+            LoadMenu(UVC5MIN);
+            iPantalla = UVC5MIN;
         } else if (((p.x >= 125) && (p.x <= 185)) && ((p.y >= 200) && (p.y <= 235)))
         {
   //        //estoy en 7 minutos UVC
+            LoadMenu(UVC7MIN);
+            iPantalla = UVC7MIN;
         } else if (((p.x >= 185) && (p.x <= 260)) && ((p.y >= 200) && (p.y <= 235)))
         {
           //estoy en 10 minutos UVC
+            LoadMenu(UVC10MIN);
+            iPantalla = UVC10MIN;
         } else if (((p.x >= 60) && (p.x <= 125)) && ((p.y >= 365) && (p.y <= 400)))
         {
           //estoy en 5 minutos OZONO
@@ -587,6 +675,341 @@ void loop()
           my_lcd.Set_Text_colour(GREY);
           my_lcd.Print_String("VOLVER",75, 355);
           iMin = 2; iSecond=0; //reset timer
+        }
+      } else if (iPantalla == UVC4MIN)
+      {//chequeo coordenadas para saber si inicia cuenta atrás o cancela. Debería ser una función
+        //my_lcd.Set_Draw_color(RED);
+        //my_lcd.Draw_Line(50, 270, 275, 270); //primera linea horizontal    
+        //my_lcd.Draw_Line(50, 340, 275, 340); //primera linea horizontal    
+        //my_lcd.Draw_Line(50, 405, 275, 405); //primera linea horizontal  
+        iMin = 4;
+        iSecond = 0;
+        bStop = false;
+        if (((p.x >= 50) && (p.x <= 275)) && ((p.y >= 340) && (p.y <= 405)))
+        {
+          //estando en la pantalla de iniciar o volver he apretado VOLVER, cargamos imagen menu again
+          my_lcd.Set_Text_Size(5);
+          my_lcd.Set_Text_colour(BLUE);
+          my_lcd.Print_String("VOLVER",75, 355);
+          LoadPicFromSDCard(MENU);
+          iPantalla = MENU;
+        } else if (((p.x >= 50) && (p.x <= 275)) && ((p.y >= 270) && (p.y <= 340)))
+        {
+          //estando en la pantalla de iniciar o volver he apretado INICAR, iniciamos la cuenta, paramos al pasar dso minutos o al pulsar STOP, tb hay que activar los LED UV-c
+          my_lcd.Set_Text_Size(5);
+          my_lcd.Set_Text_colour(BLUE);
+          my_lcd.Print_String("INICIAR",55, 290);
+          my_lcd.Set_Text_colour(WHITE);
+          //my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Set_Draw_color(BLACK);
+          my_lcd.Fill_Round_Rectangle(30, 165, 290, 260, 5);
+          my_lcd.Set_Text_Mode(1);
+          my_lcd.Set_Text_Size(9);
+          my_lcd.Set_Text_colour(WHITE);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Set_Draw_color(BLACK);
+          my_lcd.Fill_Round_Rectangle(70, 355, 290, 400, 5);
+          my_lcd.Set_Text_Size(5);
+          my_lcd.Set_Text_colour(RED);
+          my_lcd.Print_String("STOP",110, 355);
+          my_lcd.Set_Text_Mode(1);
+          my_lcd.Set_Text_Size(9);
+          my_lcd.Set_Text_colour(WHITE);
+          my_lcd.Print_String("4:00",55, 185);
+          digitalWrite(UV_C_LED, HIGH); //turn on LED
+          //while ((iMin != 0) || (iSecond != 0))
+          while (((iMin != 0) || (iSecond != 0)) && (!bStop))
+          {
+            my_lcd.Fill_Round_Rectangle(30, 165, 290, 260, 5);
+            CountDownStr(&iMin,&iSecond,&sTime);
+            my_lcd.Print_String(sTime,55, 185);  //la cadena str es la que va a ir cambiando!!!! habrá que hacer un strconcatena y bla, bla...
+            unsigned long currentMillis = millis();            
+            while (((millis() - currentMillis) <= INTERVALO) && (!bStop))
+            {
+                digitalWrite(13, HIGH); //ardunion uno es un 13
+                TSPoint p = ts.getPoint();
+                digitalWrite(13, LOW); //ardunion uno es un 13
+                pinMode(XM, OUTPUT);
+                pinMode(YP, OUTPUT);
+                p.x = map(p.x, TS_MINX, TS_MAXX, my_lcd.Get_Display_Width(), 0);
+                p.y = map(p.y, TS_MINY, TS_MAXY, my_lcd.Get_Display_Height(),0);
+                if (((p.x >= 50) && (p.x <= 275)) && ((p.y >= 340) && (p.y <= 405)))
+                {
+                  bStop = true;
+                  iMin = 0;
+                  iSecond = 0;
+                  digitalWrite(UV_C_LED, LOW); //turn off LED
+                }
+            }
+            //delay(975);// sustituir este delay for while y que la pulsar stop se pare el contador y se apague el led
+          }
+          if ((iMin == 0) && (iSecond == 0))
+          {
+            my_lcd.Fill_Round_Rectangle(30, 165, 290, 260, 5);
+            my_lcd.Print_String("0:00",55, 185);  //la cadena str es la que va a ir cambiando!!!! habrá que hacer un strconcatena y bla, bla...            
+            digitalWrite(UV_C_LED, LOW); //turn off LED
+          }
+          my_lcd.Fill_Round_Rectangle(30, 165, 290, 400, 5);
+          my_lcd.Print_String("4:00",55, 185);
+          my_lcd.Set_Text_Size(5);
+          my_lcd.Set_Text_colour(WHITE);
+          my_lcd.Print_String("INICIAR",55, 290);
+          my_lcd.Set_Text_colour(GREY);
+          my_lcd.Print_String("VOLVER",75, 355);
+          iMin = 4; iSecond=0; //reset timer
+        }
+      } else if (iPantalla == UVC5MIN)
+      {//chequeo coordenadas para saber si inicia cuenta atrás o cancela. Debería ser una función
+        //my_lcd.Set_Draw_color(RED);
+        //my_lcd.Draw_Line(50, 270, 275, 270); //primera linea horizontal    
+        //my_lcd.Draw_Line(50, 340, 275, 340); //primera linea horizontal    
+        //my_lcd.Draw_Line(50, 405, 275, 405); //primera linea horizontal  
+        iMin = 5;
+        iSecond = 0;
+        bStop = false;
+        if (((p.x >= 50) && (p.x <= 275)) && ((p.y >= 340) && (p.y <= 405)))
+        {
+          //estando en la pantalla de iniciar o volver he apretado VOLVER, cargamos imagen menu again
+          my_lcd.Set_Text_Size(5);
+          my_lcd.Set_Text_colour(BLUE);
+          my_lcd.Print_String("VOLVER",75, 355);
+          LoadPicFromSDCard(MENU);
+          iPantalla = MENU;
+        } else if (((p.x >= 50) && (p.x <= 275)) && ((p.y >= 270) && (p.y <= 340)))
+        {
+          //estando en la pantalla de iniciar o volver he apretado INICAR, iniciamos la cuenta, paramos al pasar dso minutos o al pulsar STOP, tb hay que activar los LED UV-c
+          my_lcd.Set_Text_Size(5);
+          my_lcd.Set_Text_colour(BLUE);
+          my_lcd.Print_String("INICIAR",55, 290);
+          my_lcd.Set_Text_colour(WHITE);
+          //my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Set_Draw_color(BLACK);
+          my_lcd.Fill_Round_Rectangle(30, 165, 290, 260, 5);
+          my_lcd.Set_Text_Mode(1);
+          my_lcd.Set_Text_Size(9);
+          my_lcd.Set_Text_colour(WHITE);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Set_Draw_color(BLACK);
+          my_lcd.Fill_Round_Rectangle(70, 355, 290, 400, 5);
+          my_lcd.Set_Text_Size(5);
+          my_lcd.Set_Text_colour(RED);
+          my_lcd.Print_String("STOP",110, 355);
+          my_lcd.Set_Text_Mode(1);
+          my_lcd.Set_Text_Size(9);
+          my_lcd.Set_Text_colour(WHITE);
+          my_lcd.Print_String("5:00",55, 185);
+          digitalWrite(UV_C_LED, HIGH); //turn on LED
+          //while ((iMin != 0) || (iSecond != 0))
+          while (((iMin != 0) || (iSecond != 0)) && (!bStop))
+          {
+            my_lcd.Fill_Round_Rectangle(30, 165, 290, 260, 5);
+            CountDownStr(&iMin,&iSecond,&sTime);
+            my_lcd.Print_String(sTime,55, 185);  //la cadena str es la que va a ir cambiando!!!! habrá que hacer un strconcatena y bla, bla...
+            unsigned long currentMillis = millis();            
+            while (((millis() - currentMillis) <= INTERVALO) && (!bStop))
+            {
+                digitalWrite(13, HIGH); //ardunion uno es un 13
+                TSPoint p = ts.getPoint();
+                digitalWrite(13, LOW); //ardunion uno es un 13
+                pinMode(XM, OUTPUT);
+                pinMode(YP, OUTPUT);
+                p.x = map(p.x, TS_MINX, TS_MAXX, my_lcd.Get_Display_Width(), 0);
+                p.y = map(p.y, TS_MINY, TS_MAXY, my_lcd.Get_Display_Height(),0);
+                if (((p.x >= 50) && (p.x <= 275)) && ((p.y >= 340) && (p.y <= 405)))
+                {
+                  bStop = true;
+                  iMin = 0;
+                  iSecond = 0;
+                  digitalWrite(UV_C_LED, LOW); //turn off LED
+                }
+            }
+            //delay(975);// sustituir este delay for while y que la pulsar stop se pare el contador y se apague el led
+          }
+          if ((iMin == 0) && (iSecond == 0))
+          {
+            my_lcd.Fill_Round_Rectangle(30, 165, 290, 260, 5);
+            my_lcd.Print_String("0:00",55, 185);  //la cadena str es la que va a ir cambiando!!!! habrá que hacer un strconcatena y bla, bla...            
+            digitalWrite(UV_C_LED, LOW); //turn off LED
+          }
+          my_lcd.Fill_Round_Rectangle(30, 165, 290, 400, 5);
+          my_lcd.Print_String("5:00",55, 185);
+          my_lcd.Set_Text_Size(5);
+          my_lcd.Set_Text_colour(WHITE);
+          my_lcd.Print_String("INICIAR",55, 290);
+          my_lcd.Set_Text_colour(GREY);
+          my_lcd.Print_String("VOLVER",75, 355);
+          iMin = 5; iSecond=0; //reset timer
+        }
+      } else if (iPantalla == UVC7MIN)
+      {//chequeo coordenadas para saber si inicia cuenta atrás o cancela. Debería ser una función
+        //my_lcd.Set_Draw_color(RED);
+        //my_lcd.Draw_Line(50, 270, 275, 270); //primera linea horizontal    
+        //my_lcd.Draw_Line(50, 340, 275, 340); //primera linea horizontal    
+        //my_lcd.Draw_Line(50, 405, 275, 405); //primera linea horizontal  
+        iMin = 7;
+        iSecond = 0;
+        bStop = false;
+        if (((p.x >= 50) && (p.x <= 275)) && ((p.y >= 340) && (p.y <= 405)))
+        {
+          //estando en la pantalla de iniciar o volver he apretado VOLVER, cargamos imagen menu again
+          my_lcd.Set_Text_Size(5);
+          my_lcd.Set_Text_colour(BLUE);
+          my_lcd.Print_String("VOLVER",75, 355);
+          LoadPicFromSDCard(MENU);
+          iPantalla = MENU;
+        } else if (((p.x >= 50) && (p.x <= 275)) && ((p.y >= 270) && (p.y <= 340)))
+        {
+          //estando en la pantalla de iniciar o volver he apretado INICAR, iniciamos la cuenta, paramos al pasar dso minutos o al pulsar STOP, tb hay que activar los LED UV-c
+          my_lcd.Set_Text_Size(5);
+          my_lcd.Set_Text_colour(BLUE);
+          my_lcd.Print_String("INICIAR",55, 290);
+          my_lcd.Set_Text_colour(WHITE);
+          //my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Set_Draw_color(BLACK);
+          my_lcd.Fill_Round_Rectangle(30, 165, 290, 260, 5);
+          my_lcd.Set_Text_Mode(1);
+          my_lcd.Set_Text_Size(9);
+          my_lcd.Set_Text_colour(WHITE);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Set_Draw_color(BLACK);
+          my_lcd.Fill_Round_Rectangle(70, 355, 290, 400, 5);
+          my_lcd.Set_Text_Size(5);
+          my_lcd.Set_Text_colour(RED);
+          my_lcd.Print_String("STOP",110, 355);
+          my_lcd.Set_Text_Mode(1);
+          my_lcd.Set_Text_Size(9);
+          my_lcd.Set_Text_colour(WHITE);
+          my_lcd.Print_String("7:00",55, 185);
+          digitalWrite(UV_C_LED, HIGH); //turn on LED
+          //while ((iMin != 0) || (iSecond != 0))
+          while (((iMin != 0) || (iSecond != 0)) && (!bStop))
+          {
+            my_lcd.Fill_Round_Rectangle(30, 165, 290, 260, 5);
+            CountDownStr(&iMin,&iSecond,&sTime);
+            my_lcd.Print_String(sTime,55, 185);  //la cadena str es la que va a ir cambiando!!!! habrá que hacer un strconcatena y bla, bla...
+            unsigned long currentMillis = millis();            
+            while (((millis() - currentMillis) <= INTERVALO) && (!bStop))
+            {
+                digitalWrite(13, HIGH); //ardunion uno es un 13
+                TSPoint p = ts.getPoint();
+                digitalWrite(13, LOW); //ardunion uno es un 13
+                pinMode(XM, OUTPUT);
+                pinMode(YP, OUTPUT);
+                p.x = map(p.x, TS_MINX, TS_MAXX, my_lcd.Get_Display_Width(), 0);
+                p.y = map(p.y, TS_MINY, TS_MAXY, my_lcd.Get_Display_Height(),0);
+                if (((p.x >= 50) && (p.x <= 275)) && ((p.y >= 340) && (p.y <= 405)))
+                {
+                  bStop = true;
+                  iMin = 0;
+                  iSecond = 0;
+                  digitalWrite(UV_C_LED, LOW); //turn off LED
+                }
+            }
+            //delay(975);// sustituir este delay for while y que la pulsar stop se pare el contador y se apague el led
+          }
+          if ((iMin == 0) && (iSecond == 0))
+          {
+            my_lcd.Fill_Round_Rectangle(30, 165, 290, 260, 5);
+            my_lcd.Print_String("0:00",55, 185);  //la cadena str es la que va a ir cambiando!!!! habrá que hacer un strconcatena y bla, bla...            
+            digitalWrite(UV_C_LED, LOW); //turn off LED
+          }
+          my_lcd.Fill_Round_Rectangle(30, 165, 290, 400, 5);
+          my_lcd.Print_String("7:00",55, 185);
+          my_lcd.Set_Text_Size(5);
+          my_lcd.Set_Text_colour(WHITE);
+          my_lcd.Print_String("INICIAR",55, 290);
+          my_lcd.Set_Text_colour(GREY);
+          my_lcd.Print_String("VOLVER",75, 355);
+          iMin = 7; iSecond=0; //reset timer
+        }
+      } else if (iPantalla == UVC10MIN)
+      {//chequeo coordenadas para saber si inicia cuenta atrás o cancela. Debería ser una función
+        //my_lcd.Set_Draw_color(RED);
+        //my_lcd.Draw_Line(50, 270, 275, 270); //primera linea horizontal    
+        //my_lcd.Draw_Line(50, 340, 275, 340); //primera linea horizontal    
+        //my_lcd.Draw_Line(50, 405, 275, 405); //primera linea horizontal  
+        iMin = 10;
+        iSecond = 0;
+        bStop = false;
+        if (((p.x >= 50) && (p.x <= 275)) && ((p.y >= 340) && (p.y <= 405)))
+        {
+          //estando en la pantalla de iniciar o volver he apretado VOLVER, cargamos imagen menu again
+          my_lcd.Set_Text_Size(5);
+          my_lcd.Set_Text_colour(BLUE);
+          my_lcd.Print_String("VOLVER",75, 355);
+          LoadPicFromSDCard(MENU);
+          iPantalla = MENU;
+        } else if (((p.x >= 50) && (p.x <= 275)) && ((p.y >= 270) && (p.y <= 340)))
+        {
+          //estando en la pantalla de iniciar o volver he apretado INICAR, iniciamos la cuenta, paramos al pasar dso minutos o al pulsar STOP, tb hay que activar los LED UV-c
+          my_lcd.Set_Text_Size(5);
+          my_lcd.Set_Text_colour(BLUE);
+          my_lcd.Print_String("INICIAR",55, 290);
+          my_lcd.Set_Text_colour(WHITE);
+          //my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Set_Draw_color(BLACK);
+          my_lcd.Fill_Round_Rectangle(30, 165, 290, 260, 5);
+          my_lcd.Set_Text_Mode(1);
+          my_lcd.Set_Text_Size(9);
+          my_lcd.Set_Text_colour(WHITE);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Set_Draw_color(BLACK);
+          my_lcd.Fill_Round_Rectangle(70, 355, 290, 400, 5);
+          my_lcd.Set_Text_Size(5);
+          my_lcd.Set_Text_colour(RED);
+          my_lcd.Print_String("STOP",110, 355);
+          my_lcd.Set_Text_Mode(1);
+          my_lcd.Set_Text_Size(9);
+          my_lcd.Set_Text_colour(WHITE);
+          my_lcd.Print_String("10:00",30, 185);
+          digitalWrite(UV_C_LED, HIGH); //turn on LED
+          //while ((iMin != 0) || (iSecond != 0))
+          while (((iMin != 0) || (iSecond != 0)) && (!bStop))
+          {
+            my_lcd.Fill_Round_Rectangle(30, 165, 290, 260, 5);
+            CountDownStr(&iMin,&iSecond,&sTime);
+            if (sTime == "10:00")
+            {
+              my_lcd.Print_String(sTime,30, 185);  //la cadena str es la que va a ir cambiando!!!! habrá que hacer un strconcatena y bla, bla...  
+            } else
+            {
+              my_lcd.Print_String(sTime,55, 185);  //la cadena str es la que va a ir cambiando!!!! habrá que hacer un strconcatena y bla, bla...  
+            }
+            
+            unsigned long currentMillis = millis();            
+            while (((millis() - currentMillis) <= INTERVALO) && (!bStop))
+            {
+                digitalWrite(13, HIGH); //ardunion uno es un 13
+                TSPoint p = ts.getPoint();
+                digitalWrite(13, LOW); //ardunion uno es un 13
+                pinMode(XM, OUTPUT);
+                pinMode(YP, OUTPUT);
+                p.x = map(p.x, TS_MINX, TS_MAXX, my_lcd.Get_Display_Width(), 0);
+                p.y = map(p.y, TS_MINY, TS_MAXY, my_lcd.Get_Display_Height(),0);
+                if (((p.x >= 50) && (p.x <= 275)) && ((p.y >= 340) && (p.y <= 405)))
+                {
+                  bStop = true;
+                  iMin = 0;
+                  iSecond = 0;
+                  digitalWrite(UV_C_LED, LOW); //turn off LED
+                }
+            }
+            //delay(975);// sustituir este delay for while y que la pulsar stop se pare el contador y se apague el led
+          }
+          if ((iMin == 0) && (iSecond == 0))
+          {
+            my_lcd.Fill_Round_Rectangle(30, 165, 290, 260, 5);
+            my_lcd.Print_String("0:00",55, 185);  //la cadena str es la que va a ir cambiando!!!! habrá que hacer un strconcatena y bla, bla...            
+            digitalWrite(UV_C_LED, LOW); //turn off LED
+          }
+          my_lcd.Fill_Round_Rectangle(30, 165, 290, 400, 5);
+          my_lcd.Print_String("10:00",30, 185);
+          my_lcd.Set_Text_Size(5);
+          my_lcd.Set_Text_colour(WHITE);
+          my_lcd.Print_String("INICIAR",55, 290);
+          my_lcd.Set_Text_colour(GREY);
+          my_lcd.Print_String("VOLVER",75, 355);
+          iMin = 10; iSecond=0; //reset timer
         }
       }
     }
