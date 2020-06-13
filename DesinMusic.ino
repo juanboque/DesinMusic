@@ -94,6 +94,7 @@ uint16_t s_heigh = my_lcd.Get_Display_Height();
 //bool bUVC2MIN = false;
 bool bStop = false;
 int iPantalla = -1;
+bool bSDisOK = true;
 //int iCS = 10; //Chip Select SPI UNO
 int iCS = 53; //Chip Select SPI MEGA
 String sTime;
@@ -237,6 +238,8 @@ void LoadPicFromSDCard(int iPic)
           my_lcd.Set_Text_colour(BLUE);    
           my_lcd.Set_Text_Size(3);
           my_lcd.Print_String("didnt find BMP!",0,30);
+          my_lcd.Fill_Screen(BLACK);
+          bSDisOK = false;
          // return false;
       } else if (!analysis_bpm_header(bmp_file))
       {  
@@ -244,11 +247,14 @@ void LoadPicFromSDCard(int iPic)
           my_lcd.Set_Text_colour(BLUE);    
           my_lcd.Set_Text_Size(3);
           my_lcd.Print_String("bad bmp picture!",0,0);
+          my_lcd.Fill_Screen(BLACK);
+          bSDisOK = false;
          // return false;
       } else
       {
         draw_bmp_picture(bmp_file);
         bmp_file.close(); 
+        bSDisOK = true;
        // return true;  
       }  
 
@@ -256,11 +262,18 @@ void LoadPicFromSDCard(int iPic)
 
 void LoadMenu(int iMinuteMode)
 {
+    my_lcd.Fill_Screen(BLACK);
     switch (iMinuteMode) {
       case UVC2MIN:
           //debería ser un procedimiento: ShowMenu(UVC2MIN)
           my_lcd.Set_Draw_color(BLACK);
           my_lcd.Fill_Round_Rectangle(30, 165, 290, 400, 5);
+          //my_lcd.Fill_Round_Rectangle(30, 70, 70, 400, 5);
+          my_lcd.Set_Text_Mode(5);
+          my_lcd.Set_Text_Size(8);
+          my_lcd.Set_Text_colour(CYAN);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Print_String("UV-C",75, 70);
           my_lcd.Set_Text_Mode(1);
           my_lcd.Set_Text_Size(9);
           my_lcd.Set_Text_colour(WHITE);
@@ -274,12 +287,26 @@ void LoadMenu(int iMinuteMode)
           my_lcd.Print_String("INICIAR",55, 290);
           my_lcd.Set_Text_colour(GREY);
           my_lcd.Print_String("VOLVER",75, 355);
+          my_lcd.Set_Text_Mode(2);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Set_Text_colour(MAGENTA);    
+          my_lcd.Set_Text_Size(3);
+          my_lcd.Print_String("WWW.MUSIKARTE.NET",10,0);      
+          my_lcd.Set_Text_Mode(3);
+          my_lcd.Set_Text_Size(2);
+          my_lcd.Set_Text_colour(GREY);    
+          my_lcd.Print_String("INFO@XKEMATIC.COM",65,465);
       break;
       case UVC3MIN:
         // statements
         //debería ser un procedimiento: ShowMenu(UVC2MIN)
           my_lcd.Set_Draw_color(BLACK);
           my_lcd.Fill_Round_Rectangle(30, 165, 290, 400, 5);
+          my_lcd.Set_Text_Mode(5);
+          my_lcd.Set_Text_Size(8);
+          my_lcd.Set_Text_colour(CYAN);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Print_String("UV-C",75, 70);
           my_lcd.Set_Text_Mode(1);
           my_lcd.Set_Text_Size(9);
           my_lcd.Set_Text_colour(WHITE);
@@ -293,12 +320,26 @@ void LoadMenu(int iMinuteMode)
           my_lcd.Print_String("INICIAR",55, 290);
           my_lcd.Set_Text_colour(GREY);
           my_lcd.Print_String("VOLVER",75, 355);
+          my_lcd.Set_Text_Mode(2);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Set_Text_colour(MAGENTA);    
+          my_lcd.Set_Text_Size(3);
+          my_lcd.Print_String("WWW.MUSIKARTE.NET",10,0);      
+          my_lcd.Set_Text_Mode(3);
+          my_lcd.Set_Text_Size(2);
+          my_lcd.Set_Text_colour(GREY);    
+          my_lcd.Print_String("INFO@XKEMATIC.COM",65,465);
       break;
       case UVC4MIN:
         // statements
         //debería ser un procedimiento: ShowMenu(UVC2MIN)
           my_lcd.Set_Draw_color(BLACK);
           my_lcd.Fill_Round_Rectangle(30, 165, 290, 400, 5);
+          my_lcd.Set_Text_Mode(5);
+          my_lcd.Set_Text_Size(8);
+          my_lcd.Set_Text_colour(CYAN);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Print_String("UV-C",75, 70);
           my_lcd.Set_Text_Mode(1);
           my_lcd.Set_Text_Size(9);
           my_lcd.Set_Text_colour(WHITE);
@@ -312,12 +353,26 @@ void LoadMenu(int iMinuteMode)
           my_lcd.Print_String("INICIAR",55, 290);
           my_lcd.Set_Text_colour(GREY);
           my_lcd.Print_String("VOLVER",75, 355);
+          my_lcd.Set_Text_Mode(2);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Set_Text_colour(MAGENTA);    
+          my_lcd.Set_Text_Size(3);
+          my_lcd.Print_String("WWW.MUSIKARTE.NET",10,0);      
+          my_lcd.Set_Text_Mode(3);
+          my_lcd.Set_Text_Size(2);
+          my_lcd.Set_Text_colour(GREY);    
+          my_lcd.Print_String("INFO@XKEMATIC.COM",65,465);
       break;
       case UVC5MIN:
         // statements
         //debería ser un procedimiento: ShowMenu(UVC2MIN)
           my_lcd.Set_Draw_color(BLACK);
           my_lcd.Fill_Round_Rectangle(30, 165, 290, 400, 5);
+          my_lcd.Set_Text_Mode(5);
+          my_lcd.Set_Text_Size(8);
+          my_lcd.Set_Text_colour(CYAN);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Print_String("UV-C",75, 70);
           my_lcd.Set_Text_Mode(1);
           my_lcd.Set_Text_Size(9);
           my_lcd.Set_Text_colour(WHITE);
@@ -331,12 +386,26 @@ void LoadMenu(int iMinuteMode)
           my_lcd.Print_String("INICIAR",55, 290);
           my_lcd.Set_Text_colour(GREY);
           my_lcd.Print_String("VOLVER",75, 355);
+          my_lcd.Set_Text_Mode(2);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Set_Text_colour(MAGENTA);    
+          my_lcd.Set_Text_Size(3);
+          my_lcd.Print_String("WWW.MUSIKARTE.NET",10,0);      
+          my_lcd.Set_Text_Mode(3);
+          my_lcd.Set_Text_Size(2);
+          my_lcd.Set_Text_colour(GREY);    
+          my_lcd.Print_String("INFO@XKEMATIC.COM",65,465);
       break;
       case UVC7MIN:
         // statements
         //debería ser un procedimiento: ShowMenu(UVC2MIN)
           my_lcd.Set_Draw_color(BLACK);
           my_lcd.Fill_Round_Rectangle(30, 165, 290, 400, 5);
+          my_lcd.Set_Text_Mode(5);
+          my_lcd.Set_Text_Size(8);
+          my_lcd.Set_Text_colour(CYAN);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Print_String("UV-C",75, 70);
           my_lcd.Set_Text_Mode(1);
           my_lcd.Set_Text_Size(9);
           my_lcd.Set_Text_colour(WHITE);
@@ -350,12 +419,26 @@ void LoadMenu(int iMinuteMode)
           my_lcd.Print_String("INICIAR",55, 290);
           my_lcd.Set_Text_colour(GREY);
           my_lcd.Print_String("VOLVER",75, 355);
+          my_lcd.Set_Text_Mode(2);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Set_Text_colour(MAGENTA);    
+          my_lcd.Set_Text_Size(3);
+          my_lcd.Print_String("WWW.MUSIKARTE.NET",10,0);      
+          my_lcd.Set_Text_Mode(3);
+          my_lcd.Set_Text_Size(2);
+          my_lcd.Set_Text_colour(GREY);    
+          my_lcd.Print_String("INFO@XKEMATIC.COM",65,465);
       break;
       case UVC10MIN:
         // statements
         //debería ser un procedimiento: ShowMenu(UVC2MIN)
           my_lcd.Set_Draw_color(BLACK);
           my_lcd.Fill_Round_Rectangle(30, 165, 290, 400, 5);
+          my_lcd.Set_Text_Mode(5);
+          my_lcd.Set_Text_Size(8);
+          my_lcd.Set_Text_colour(CYAN);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Print_String("UV-C",75, 70);
           my_lcd.Set_Text_Mode(1);
           my_lcd.Set_Text_Size(9);
           my_lcd.Set_Text_colour(WHITE);
@@ -369,6 +452,16 @@ void LoadMenu(int iMinuteMode)
           my_lcd.Print_String("INICIAR",55, 290);
           my_lcd.Set_Text_colour(GREY);
           my_lcd.Print_String("VOLVER",75, 355);
+          my_lcd.Set_Text_Mode(2);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Set_Text_colour(MAGENTA);    
+          my_lcd.Set_Text_Size(3);
+          my_lcd.Print_String("WWW.MUSIKARTE.NET",10,0);      
+          my_lcd.Set_Text_Mode(3);
+          my_lcd.Set_Text_Size(2);
+          my_lcd.Set_Text_colour(GREY);    
+          my_lcd.Print_String("INFO@XKEMATIC.COM",65,465);
+          
       break;
       default:
         // statements
@@ -388,15 +481,97 @@ void setup()
    
    //Init SD_Card int 
    pinMode(iCS, OUTPUT);
-   my_lcd.Fill_Screen(WHITE);
    if (!SD.begin(iCS)) 
    {
     my_lcd.Set_Text_Back_colour(WHITE);
     my_lcd.Set_Text_colour(BLUE);    
     my_lcd.Set_Text_Size(3);
     my_lcd.Print_String("SD Card Init fail!",0,0);
+    bSDisOK = false;
     //return false;
   }
+  my_lcd.Fill_Screen(BLACK);
+}
+
+void MenuGraficoPortada()
+{
+      my_lcd.Set_Text_Mode(1);
+      my_lcd.Set_Text_Back_colour(BLACK);
+      my_lcd.Set_Text_colour(MAGENTA);    
+      my_lcd.Set_Text_Size(3);
+      my_lcd.Print_String("WWW.MUSIKARTE.NET",10,0);
+      my_lcd.Set_Text_Size(2);
+      my_lcd.Set_Text_colour(GREY);    
+      my_lcd.Print_String("INFO@XKEMATIC.COM",65,465);
+      my_lcd.Set_Draw_color(BLUE);
+      my_lcd.Fill_Round_Rectangle(30, 120, 290, 350, 5);
+      my_lcd.Set_Text_colour(WHITE);    
+      my_lcd.Set_Text_Size(3);
+      my_lcd.Set_Text_Mode(2);
+      my_lcd.Print_String("Toca para",70,150);
+      my_lcd.Print_String("seleccionar",50,220);
+      my_lcd.Print_String("desinfeccion",40,290);
+}
+
+void LoadMenuGrafico()
+{
+
+  my_lcd.Fill_Screen(BLACK);
+  my_lcd.Set_Text_Mode(2);
+  my_lcd.Set_Text_Back_colour(BLACK);
+  my_lcd.Set_Text_colour(MAGENTA);    
+  my_lcd.Set_Text_Size(3);
+  my_lcd.Print_String("WWW.MUSIKARTE.NET",10,0);      
+  my_lcd.Set_Text_Mode(3);
+  my_lcd.Set_Text_Size(2);
+  my_lcd.Set_Text_colour(GREY);    
+  my_lcd.Print_String("INFO@XKEMATIC.COM",65,465);
+  my_lcd.Set_Text_Mode(9);
+  my_lcd.Set_Text_Size(5);
+  my_lcd.Set_Text_colour(WHITE);
+  my_lcd.Set_Text_Back_colour(BLACK);
+  my_lcd.Set_Draw_color(BLUE);/////////////////////////////////////////////////////////////////////////////////////////////
+  my_lcd.Fill_Round_Rectangle(90, 110, 220, 155, 5);////////////////////////////////////////////////////////////////////////
+  my_lcd.Print_String("UV-C",100, 115);
+
+  my_lcd.Set_Text_Mode(9);
+  my_lcd.Set_Text_Size(5);
+  my_lcd.Set_Text_colour(WHITE);
+  my_lcd.Set_Text_Back_colour(BLACK);
+  my_lcd.Set_Draw_color(BLUE);/////////////////////////////////////////////////////////////////////////////////////////////
+  my_lcd.Fill_Round_Rectangle(80, 275, 240, 325, 5);////////////////////////////////////////////////////////////////////////
+  my_lcd.Print_String("OZONO",90, 280);
+
+  my_lcd.Set_Text_Size(3);
+  my_lcd.Set_Text_colour(WHITE);
+  my_lcd.Set_Text_Back_colour(BLACK);
+  my_lcd.Print_String("2",75, 170);
+  my_lcd.Print_String("2",75, 335);
+  my_lcd.Print_String("3",145, 170);
+  my_lcd.Print_String("3",145, 335);
+  my_lcd.Print_String("4",210, 170);
+  my_lcd.Print_String("4",210, 335);
+  my_lcd.Print_String("5",75, 208);
+  my_lcd.Print_String("5",75, 373);
+  my_lcd.Print_String("7",145, 208);
+  my_lcd.Print_String("7",145, 373);
+  my_lcd.Print_String("10",200, 208);
+  my_lcd.Print_String("10",200, 373);
+  my_lcd.Set_Text_Size(2);
+  my_lcd.Set_Text_colour(WHITE);
+  my_lcd.Set_Text_Back_colour(BLACK);
+  my_lcd.Print_String("m",97, 177);// del 2
+  my_lcd.Print_String("m",97, 342);// del 2
+  my_lcd.Print_String("m",97, 215);//del 5
+  my_lcd.Print_String("m",97, 380);//del 5
+  my_lcd.Print_String("m",167, 215);//del 7
+  my_lcd.Print_String("m",167, 380);//del 7
+  my_lcd.Print_String("m",167, 177);//del 3
+  my_lcd.Print_String("m",167, 342);//del 3
+  my_lcd.Print_String("m",237, 177);//del 4
+  my_lcd.Print_String("m",237, 342);//del 4
+  my_lcd.Print_String("m",240, 215);//del 10
+  my_lcd.Print_String("m",240, 380);//del 10  
 }
 
 void loop() 
@@ -412,7 +587,13 @@ void loop()
     //Load Picture from SDCard
     if (iPantalla == NO_SCREEN)
     {
-      LoadPicFromSDCard(PORTADA);
+      if (bSDisOK)
+      {
+        LoadPicFromSDCard(PORTADA);
+      } else
+      {
+        MenuGraficoPortada();
+      }
       iPantalla = PORTADA;
     }
 
@@ -421,7 +602,13 @@ void loop()
     {
       if (iPantalla == PORTADA)
       {
-        LoadPicFromSDCard(MENU);
+        if (bSDisOK)
+        {
+          LoadPicFromSDCard(MENU);
+        } else
+        {
+          LoadMenuGrafico();
+        }
         iPantalla = MENU;
         p.x = 0;  
         p.y = 0;
@@ -434,28 +621,28 @@ void loop()
 //      Serial.print("p.y DESPUES del map: ");
 //      Serial.println(p.y); //105
       /* MOSTRAR AREAS DE MENUS PARA UV-C U OZONO Y SU TIEMPO*/
-      my_lcd.Set_Draw_color(RED);
-      my_lcd.Draw_Line(60, 165, 260, 165); //primera linea horizontal
-      my_lcd.Draw_Line(60, 200, 260, 200); //segunda linea horizontal
-      my_lcd.Draw_Line(60, 235, 260, 235); //tercera linea horizontal
-      
-      my_lcd.Draw_Line(60, 330, 260, 330); //cuarta linea horizontal
-      my_lcd.Draw_Line(60, 365, 260, 365); //quinta linea horizontal
-      my_lcd.Draw_Line(60, 400, 260, 400); //sexta linea horizontal
-      
-      my_lcd.Draw_Line(60, 165, 60, 400); //primera linea vertical que es común a todas las areas
-      
-      my_lcd.Draw_Line(135, 165, 135, 200); //segunda linea vertical de la primera fila de uvc entre los numeros 2 y 3
-      my_lcd.Draw_Line(195, 165, 195, 200); //tercera linea vertical de la primera fila de uvc entre los numeros 3 y 4
-      my_lcd.Draw_Line(125, 200, 125, 235); //segunda linea vertical de la segunda fila de uvc entre los numeros 5 y 7
-      my_lcd.Draw_Line(185, 200, 185, 235); //tercera linea vertical de la segunda fila de uvc entre los numeros 7 y 10
-
-      my_lcd.Draw_Line(135, 330, 135, 365); //segunda linea vertical de la primera fila de uvc entre los numeros 2 y 3
-      my_lcd.Draw_Line(195, 330, 195, 365); //tercera linea vertical de la primera fila de uvc entre los numeros 3 y 4
-      my_lcd.Draw_Line(125, 365, 125, 400); //segunda linea vertical de la segunda fila de uvc entre los numeros 5 y 7
-      my_lcd.Draw_Line(185, 365, 185, 400); //tercera linea vertical de la segunda fila de uvc entre los numeros 7 y 10
-      
-      my_lcd.Draw_Line(260, 165, 260, 400); //ultima linea vertical que es común a todas las areas
+//      my_lcd.Set_Draw_color(RED);
+//      my_lcd.Draw_Line(60, 165, 260, 165); //primera linea horizontal
+//      my_lcd.Draw_Line(60, 200, 260, 200); //segunda linea horizontal
+//      my_lcd.Draw_Line(60, 235, 260, 235); //tercera linea horizontal
+//      
+//      my_lcd.Draw_Line(60, 330, 260, 330); //cuarta linea horizontal
+//      my_lcd.Draw_Line(60, 365, 260, 365); //quinta linea horizontal
+//      my_lcd.Draw_Line(60, 400, 260, 400); //sexta linea horizontal
+//      
+//      my_lcd.Draw_Line(60, 165, 60, 400); //primera linea vertical que es común a todas las areas
+//      
+//      my_lcd.Draw_Line(135, 165, 135, 200); //segunda linea vertical de la primera fila de uvc entre los numeros 2 y 3
+//      my_lcd.Draw_Line(195, 165, 195, 200); //tercera linea vertical de la primera fila de uvc entre los numeros 3 y 4
+//      my_lcd.Draw_Line(125, 200, 125, 235); //segunda linea vertical de la segunda fila de uvc entre los numeros 5 y 7
+//      my_lcd.Draw_Line(185, 200, 185, 235); //tercera linea vertical de la segunda fila de uvc entre los numeros 7 y 10
+//
+//      my_lcd.Draw_Line(135, 330, 135, 365); //segunda linea vertical de la primera fila de uvc entre los numeros 2 y 3
+//      my_lcd.Draw_Line(195, 330, 195, 365); //tercera linea vertical de la primera fila de uvc entre los numeros 3 y 4
+//      my_lcd.Draw_Line(125, 365, 125, 400); //segunda linea vertical de la segunda fila de uvc entre los numeros 5 y 7
+//      my_lcd.Draw_Line(185, 365, 185, 400); //tercera linea vertical de la segunda fila de uvc entre los numeros 7 y 10
+//      
+//      my_lcd.Draw_Line(260, 165, 260, 400); //ultima linea vertical que es común a todas las areas
 /* FIN MOSTRAR AREAS DE MENUS PARA UV-C U OZONO Y SU TIEMPO*/
       //void Draw_Line(int16_t x1, int16_t y1, int16_t x2, int16_t y2);
       if (iPantalla == MENU)
@@ -527,7 +714,14 @@ void loop()
           my_lcd.Set_Text_Size(5);
           my_lcd.Set_Text_colour(BLUE);
           my_lcd.Print_String("VOLVER",75, 355);
-          LoadPicFromSDCard(MENU);
+          //LoadPicFromSDCard(MENU);
+          if (bSDisOK)
+          {
+            LoadPicFromSDCard(MENU);
+          } else
+          {
+            LoadMenuGrafico();
+          }
           iPantalla = MENU;
         } else if (((p.x >= 50) && (p.x <= 275)) && ((p.y >= 270) && (p.y <= 340)))
         {
@@ -609,7 +803,14 @@ void loop()
           my_lcd.Set_Text_Size(5);
           my_lcd.Set_Text_colour(BLUE);
           my_lcd.Print_String("VOLVER",75, 355);
-          LoadPicFromSDCard(MENU);
+          //LoadPicFromSDCard(MENU);
+          if (bSDisOK)
+          {
+            LoadPicFromSDCard(MENU);
+          } else
+          {
+            LoadMenuGrafico();
+          }
           iPantalla = MENU;
         } else if (((p.x >= 50) && (p.x <= 275)) && ((p.y >= 270) && (p.y <= 340)))
         {
@@ -691,7 +892,14 @@ void loop()
           my_lcd.Set_Text_Size(5);
           my_lcd.Set_Text_colour(BLUE);
           my_lcd.Print_String("VOLVER",75, 355);
-          LoadPicFromSDCard(MENU);
+          //LoadPicFromSDCard(MENU);
+          if (bSDisOK)
+          {
+            LoadPicFromSDCard(MENU);
+          } else
+          {
+            LoadMenuGrafico();
+          }
           iPantalla = MENU;
         } else if (((p.x >= 50) && (p.x <= 275)) && ((p.y >= 270) && (p.y <= 340)))
         {
@@ -773,7 +981,14 @@ void loop()
           my_lcd.Set_Text_Size(5);
           my_lcd.Set_Text_colour(BLUE);
           my_lcd.Print_String("VOLVER",75, 355);
-          LoadPicFromSDCard(MENU);
+          //LoadPicFromSDCard(MENU);
+          if (bSDisOK)
+          {
+            LoadPicFromSDCard(MENU);
+          } else
+          {
+            LoadMenuGrafico();
+          }
           iPantalla = MENU;
         } else if (((p.x >= 50) && (p.x <= 275)) && ((p.y >= 270) && (p.y <= 340)))
         {
@@ -855,7 +1070,14 @@ void loop()
           my_lcd.Set_Text_Size(5);
           my_lcd.Set_Text_colour(BLUE);
           my_lcd.Print_String("VOLVER",75, 355);
-          LoadPicFromSDCard(MENU);
+          //LoadPicFromSDCard(MENU);
+          if (bSDisOK)
+          {
+            LoadPicFromSDCard(MENU);
+          } else
+          {
+            LoadMenuGrafico();
+          }
           iPantalla = MENU;
         } else if (((p.x >= 50) && (p.x <= 275)) && ((p.y >= 270) && (p.y <= 340)))
         {
@@ -937,7 +1159,14 @@ void loop()
           my_lcd.Set_Text_Size(5);
           my_lcd.Set_Text_colour(BLUE);
           my_lcd.Print_String("VOLVER",75, 355);
-          LoadPicFromSDCard(MENU);
+          //LoadPicFromSDCard(MENU);
+          if (bSDisOK)
+          {
+            LoadPicFromSDCard(MENU);
+          } else
+          {
+            LoadMenuGrafico();
+          }
           iPantalla = MENU;
         } else if (((p.x >= 50) && (p.x <= 275)) && ((p.y >= 270) && (p.y <= 340)))
         {
