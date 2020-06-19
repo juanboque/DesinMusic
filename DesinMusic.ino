@@ -70,6 +70,11 @@ LCDWIKI_KBV my_lcd(ILI9486,A3,A2,A1,A0,A4); //model,cs,cd,wr,rd,reset
 #define UVC7MIN 7
 #define UVC10MIN 10
 #define OZONO2MIN 11
+#define OZONO3MIN 12
+#define OZONO4MIN 13
+#define OZONO5MIN 14
+#define OZONO7MIN 15
+#define OZONO10MIN 16
 #define INTERVALO 1000
 
 #define YP A3  // must be an analog pin, use "An" notation!
@@ -294,6 +299,134 @@ void LoadMenu(int iMinuteMode)
 {
     my_lcd.Fill_Screen(BLACK);
     switch (iMinuteMode) {
+      case OZONO7MIN:
+          //debería ser un procedimiento: ShowMenu(UVC2MIN)
+          my_lcd.Set_Draw_color(BLACK);
+          my_lcd.Fill_Round_Rectangle(30, 165, 290, 400, 5);
+          //my_lcd.Fill_Round_Rectangle(30, 70, 70, 400, 5);
+          my_lcd.Set_Text_Mode(5);
+          my_lcd.Set_Text_Size(8);
+          my_lcd.Set_Text_colour(CYAN);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Print_String("OZONO",50, 5);
+          my_lcd.Set_Text_Mode(1);
+          my_lcd.Set_Text_Size(4);
+          my_lcd.Set_Text_colour(GREEN);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Print_String("0.00 ppm",70, 100);
+          my_lcd.Set_Text_Mode(1);
+          my_lcd.Set_Text_Size(9);
+          my_lcd.Set_Text_colour(WHITE);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Print_String("7",85, 175);
+          my_lcd.Set_Text_Size(4);
+          my_lcd.Print_String("MIN",160, 210);
+          my_lcd.Set_Text_colour(WHITE);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Set_Text_Size(5);
+          my_lcd.Print_String("INICIAR",55, 290);
+          my_lcd.Set_Text_colour(GREY);
+          my_lcd.Print_String("VOLVER",75, 355);
+          my_lcd.Set_Text_Size(2);
+          my_lcd.Set_Text_colour(GREY);    
+          my_lcd.Print_String("INFO@XKEMATIC.COM",65,465);
+      break;
+      case OZONO5MIN:
+          //debería ser un procedimiento: ShowMenu(UVC2MIN)
+          my_lcd.Set_Draw_color(BLACK);
+          my_lcd.Fill_Round_Rectangle(30, 165, 290, 400, 5);
+          //my_lcd.Fill_Round_Rectangle(30, 70, 70, 400, 5);
+          my_lcd.Set_Text_Mode(5);
+          my_lcd.Set_Text_Size(8);
+          my_lcd.Set_Text_colour(CYAN);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Print_String("OZONO",50, 5);
+          my_lcd.Set_Text_Mode(1);
+          my_lcd.Set_Text_Size(4);
+          my_lcd.Set_Text_colour(GREEN);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Print_String("0.00 ppm",70, 100);
+          my_lcd.Set_Text_Mode(1);
+          my_lcd.Set_Text_Size(9);
+          my_lcd.Set_Text_colour(WHITE);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Print_String("5",85, 175);
+          my_lcd.Set_Text_Size(4);
+          my_lcd.Print_String("MIN",160, 210);
+          my_lcd.Set_Text_colour(WHITE);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Set_Text_Size(5);
+          my_lcd.Print_String("INICIAR",55, 290);
+          my_lcd.Set_Text_colour(GREY);
+          my_lcd.Print_String("VOLVER",75, 355);
+          my_lcd.Set_Text_Size(2);
+          my_lcd.Set_Text_colour(GREY);    
+          my_lcd.Print_String("INFO@XKEMATIC.COM",65,465);
+      break;
+      case OZONO4MIN:
+          //debería ser un procedimiento: ShowMenu(UVC2MIN)
+          my_lcd.Set_Draw_color(BLACK);
+          my_lcd.Fill_Round_Rectangle(30, 165, 290, 400, 5);
+          //my_lcd.Fill_Round_Rectangle(30, 70, 70, 400, 5);
+          my_lcd.Set_Text_Mode(5);
+          my_lcd.Set_Text_Size(8);
+          my_lcd.Set_Text_colour(CYAN);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Print_String("OZONO",50, 5);
+          my_lcd.Set_Text_Mode(1);
+          my_lcd.Set_Text_Size(4);
+          my_lcd.Set_Text_colour(GREEN);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Print_String("0.00 ppm",70, 100);
+          my_lcd.Set_Text_Mode(1);
+          my_lcd.Set_Text_Size(9);
+          my_lcd.Set_Text_colour(WHITE);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Print_String("4",85, 175);
+          my_lcd.Set_Text_Size(4);
+          my_lcd.Print_String("MIN",160, 210);
+          my_lcd.Set_Text_colour(WHITE);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Set_Text_Size(5);
+          my_lcd.Print_String("INICIAR",55, 290);
+          my_lcd.Set_Text_colour(GREY);
+          my_lcd.Print_String("VOLVER",75, 355);
+          my_lcd.Set_Text_Size(2);
+          my_lcd.Set_Text_colour(GREY);    
+          my_lcd.Print_String("INFO@XKEMATIC.COM",65,465);
+      break;
+      case OZONO3MIN:
+          //debería ser un procedimiento: ShowMenu(UVC2MIN)
+          my_lcd.Set_Draw_color(BLACK);
+          my_lcd.Fill_Round_Rectangle(30, 165, 290, 400, 5);
+          //my_lcd.Fill_Round_Rectangle(30, 70, 70, 400, 5);
+          my_lcd.Set_Text_Mode(5);
+          my_lcd.Set_Text_Size(8);
+          my_lcd.Set_Text_colour(CYAN);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Print_String("OZONO",50, 5);
+          my_lcd.Set_Text_Mode(1);
+          my_lcd.Set_Text_Size(4);
+          my_lcd.Set_Text_colour(GREEN);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Print_String("0.00 ppm",70, 100);
+          my_lcd.Set_Text_Mode(1);
+          my_lcd.Set_Text_Size(9);
+          my_lcd.Set_Text_colour(WHITE);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Print_String("3",85, 175);
+          my_lcd.Set_Text_Size(4);
+          my_lcd.Print_String("MIN",160, 210);
+          my_lcd.Set_Text_colour(WHITE);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Set_Text_Size(5);
+          my_lcd.Print_String("INICIAR",55, 290);
+          my_lcd.Set_Text_colour(GREY);
+          my_lcd.Print_String("VOLVER",75, 355);
+          my_lcd.Set_Text_Size(2);
+          my_lcd.Set_Text_colour(GREY);    
+          my_lcd.Print_String("INFO@XKEMATIC.COM",65,465);
+      break;
       case OZONO2MIN:
           //debería ser un procedimiento: ShowMenu(UVC2MIN)
           my_lcd.Set_Draw_color(BLACK);
@@ -491,6 +624,45 @@ void LoadMenu(int iMinuteMode)
           my_lcd.Set_Text_colour(GREY);    
           my_lcd.Print_String("INFO@XKEMATIC.COM",65,465);
       break;
+      case OZONO10MIN:
+        // statements
+        //debería ser un procedimiento: ShowMenu(UVC2MIN)
+          my_lcd.Set_Draw_color(BLACK);
+          my_lcd.Fill_Round_Rectangle(30, 165, 290, 400, 5);
+          //my_lcd.Fill_Round_Rectangle(30, 70, 70, 400, 5);
+          my_lcd.Set_Text_Mode(5);
+          my_lcd.Set_Text_Size(8);
+          my_lcd.Set_Text_colour(CYAN);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Print_String("OZONO",50, 5);
+          my_lcd.Set_Text_Mode(1);
+          my_lcd.Set_Text_Size(4);
+          my_lcd.Set_Text_colour(GREEN);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Print_String("0.00 ppm",70, 100);
+          my_lcd.Set_Text_Mode(1);
+          my_lcd.Set_Text_Size(9);
+          my_lcd.Set_Text_colour(WHITE);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Print_String("10",60, 175);
+          my_lcd.Set_Text_Size(4);
+          my_lcd.Print_String("MIN",190, 210);
+          my_lcd.Set_Text_colour(WHITE);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Set_Text_Size(5);
+          my_lcd.Print_String("INICIAR",55, 290);
+          my_lcd.Set_Text_colour(GREY);
+          my_lcd.Print_String("VOLVER",75, 355);
+          my_lcd.Set_Text_Mode(2);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Set_Text_colour(MAGENTA);    
+          my_lcd.Set_Text_Size(3);
+          my_lcd.Print_String("WWW.MUSIKARTE.NET",10,0);      
+          my_lcd.Set_Text_Mode(3);
+          my_lcd.Set_Text_Size(2);
+          my_lcd.Set_Text_colour(GREY);    
+          my_lcd.Print_String("INFO@XKEMATIC.COM",65,465);
+      break;
       case UVC10MIN:
         // statements
         //debería ser un procedimiento: ShowMenu(UVC2MIN)
@@ -523,7 +695,6 @@ void LoadMenu(int iMinuteMode)
           my_lcd.Set_Text_Size(2);
           my_lcd.Set_Text_colour(GREY);    
           my_lcd.Print_String("INFO@XKEMATIC.COM",65,465);
-          
       break;
       default:
         // statements
@@ -760,9 +931,13 @@ void loop()
         } else if (((p.x >= 135) && (p.x <= 195)) && ((p.y >= 330) && (p.y <= 365)))
         {
   //        //estoy en tres minutos OZONO
+              LoadMenu(OZONO3MIN);
+            iPantalla = OZONO3MIN;
         } else if (((p.x >= 195) && (p.x <= 260)) && ((p.y >= 330) && (p.y <= 365)))
         {
   //        //estoy en cuatro minutos OZONO
+              LoadMenu(OZONO4MIN);
+            iPantalla = OZONO4MIN;
         } else if (((p.x >= 60) && (p.x <= 125)) && ((p.y >= 200) && (p.y <= 235)))
         {
   //        //estoy en 5 minutos UVC
@@ -781,12 +956,122 @@ void loop()
         } else if (((p.x >= 60) && (p.x <= 125)) && ((p.y >= 365) && (p.y <= 400)))
         {
           //estoy en 5 minutos OZONO
+                      LoadMenu(OZONO5MIN);
+            iPantalla = OZONO5MIN;
         } else if (((p.x >= 125) && (p.x <= 185)) && ((p.y >= 365) && (p.y <= 400)))
         {
           //estoy en 7 minutos OZONO
+                      LoadMenu(OZONO7MIN);
+            iPantalla = OZONO7MIN;
         } else if (((p.x >= 185) && (p.x <= 260)) && ((p.y >= 365) && (p.y <= 400)))
         {
           //estoy en 10 minutos OZONO
+                      LoadMenu(OZONO10MIN);
+            iPantalla = OZONO10MIN;
+        }
+      } else if (iPantalla == OZONO3MIN)
+      {//chequeo coordenadas para saber si inicia cuenta atrás o cancela. Debería ser una función
+        //my_lcd.Set_Draw_color(RED);
+        //my_lcd.Draw_Line(50, 270, 275, 270); //primera linea horizontal    
+        //my_lcd.Draw_Line(50, 340, 275, 340); //primera linea horizontal    
+        //my_lcd.Draw_Line(50, 405, 275, 405); //primera linea horizontal  
+        iMin = 3;
+        iSecond = 0;
+        bStop = false;
+        if (((p.x >= 50) && (p.x <= 275)) && ((p.y >= 340) && (p.y <= 405)))
+        {
+          //estando en la pantalla de iniciar o volver he apretado VOLVER, cargamos imagen menu again
+          my_lcd.Set_Text_Size(5);
+          my_lcd.Set_Text_colour(BLUE);
+          my_lcd.Print_String("VOLVER",75, 355);
+          //LoadPicFromSDCard(MENU);
+          if (bSDisOK)
+          {
+            LoadPicFromSDCard(MENU);
+          } else
+          {
+            LoadMenuGrafico();
+          }
+          iPantalla = MENU;
+        } else if (((p.x >= 50) && (p.x <= 275)) && ((p.y >= 270) && (p.y <= 340)))
+        {
+          //estando en la pantalla de iniciar o volver he apretado INICAR, iniciamos la cuenta, paramos al pasar dso minutos o al pulsar STOP, tb hay que activar los LED UV-c
+          my_lcd.Set_Text_Size(5);
+          my_lcd.Set_Text_colour(BLUE);
+          my_lcd.Print_String("INICIAR",55, 290);
+          my_lcd.Set_Text_colour(WHITE);
+          //my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Set_Draw_color(BLACK);
+          my_lcd.Fill_Round_Rectangle(30, 165, 290, 260, 5);
+          my_lcd.Set_Text_Mode(1);
+          my_lcd.Set_Text_Size(9);
+          my_lcd.Set_Text_colour(WHITE);
+          my_lcd.Set_Text_Back_colour(BLACK);
+          my_lcd.Set_Draw_color(BLACK);
+          my_lcd.Fill_Round_Rectangle(70, 355, 290, 400, 5);
+          my_lcd.Set_Text_Size(5);
+          my_lcd.Set_Text_colour(RED);
+          my_lcd.Print_String("STOP",110, 355);
+          my_lcd.Set_Text_Mode(1);
+          my_lcd.Set_Text_Size(9);
+          my_lcd.Set_Text_colour(WHITE);
+          my_lcd.Print_String("3:00",55, 185);
+          digitalWrite(OZONO_ON, HIGH); //turn on OZONO
+          //while ((iMin != 0) || (iSecond != 0))
+          while (((iMin != 0) || (iSecond != 0)) && (!bStop))
+          {
+            //my_lcd.Fill_Round_Rectangle(30, 165, 290, 260, 5);
+            my_lcd.Fill_Round_Rectangle(30, 100, 290, 260, 5);
+            CountDownStr(&iMin,&iSecond,&sTime);
+            my_lcd.Set_Text_Mode(1);
+            my_lcd.Set_Text_Size(9);
+            my_lcd.Set_Text_colour(WHITE);
+            my_lcd.Print_String(sTime,55, 185);  //la cadena str es la que va a ir cambiando!!!! habrá que hacer un strconcatena y bla, bla...
+            my_lcd.Set_Text_Size(4);
+            my_lcd.Set_Text_colour(GREEN);
+            my_lcd.Set_Text_Back_colour(BLACK);
+            float rs_med = readMQ(MQ_PIN);      // Obtener la Rs promedio
+            float concentration = getConcentration(rs_med/R0);   // Obtener la concentración
+            sConcentration = concentration;
+            sConcentration.concat(" ppm");
+            my_lcd.Print_String(sConcentration,70, 100);
+            unsigned long currentMillis = millis();            
+            while (((millis() - currentMillis) <= INTERVALO) && (!bStop))
+            {
+                digitalWrite(13, HIGH); //ardunion uno es un 13
+                TSPoint p = ts.getPoint();
+                digitalWrite(13, LOW); //ardunion uno es un 13
+                pinMode(XM, OUTPUT);
+                pinMode(YP, OUTPUT);
+                p.x = map(p.x, TS_MINX, TS_MAXX, my_lcd.Get_Display_Width(), 0);
+                p.y = map(p.y, TS_MINY, TS_MAXY, my_lcd.Get_Display_Height(),0);
+                if (((p.x >= 50) && (p.x <= 275)) && ((p.y >= 340) && (p.y <= 405)))
+                {
+                  bStop = true;
+                  iMin = 0;
+                  iSecond = 0;
+                  digitalWrite(OZONO_ON, LOW); //turn off LED
+                }
+            }
+            //delay(975);// sustituir este delay for while y que la pulsar stop se pare el contador y se apague el led
+          }
+          if ((iMin == 0) && (iSecond == 0))
+          {
+            my_lcd.Fill_Round_Rectangle(30, 165, 290, 260, 5);
+            my_lcd.Set_Text_Mode(1);
+            my_lcd.Set_Text_Size(9);
+            my_lcd.Set_Text_colour(WHITE);
+            my_lcd.Print_String("0:00",55, 185);  //la cadena str es la que va a ir cambiando!!!! habrá que hacer un strconcatena y bla, bla...            
+            digitalWrite(UV_C_LED, LOW); //turn off LED
+          }
+          my_lcd.Fill_Round_Rectangle(30, 165, 290, 400, 5);
+          my_lcd.Print_String("3:00",55, 185);
+          my_lcd.Set_Text_Size(5);
+          my_lcd.Set_Text_colour(WHITE);
+          my_lcd.Print_String("INICIAR",55, 290);
+          my_lcd.Set_Text_colour(GREY);
+          my_lcd.Print_String("VOLVER",75, 355);
+          iMin = 2; iSecond=0; //reset timer
         }
       } else if (iPantalla == OZONO2MIN)
       {//chequeo coordenadas para saber si inicia cuenta atrás o cancela. Debería ser una función
@@ -869,7 +1154,7 @@ void loop()
                   bStop = true;
                   iMin = 0;
                   iSecond = 0;
-                  digitalWrite(UV_C_LED, LOW); //turn off LED
+                  digitalWrite(OZONO_ON, LOW); //turn off LED
                 }
             }
             //delay(975);// sustituir este delay for while y que la pulsar stop se pare el contador y se apague el led
