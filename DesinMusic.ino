@@ -710,7 +710,7 @@ void setup()
    pinMode(OZONO_ON, OUTPUT);
    pinMode(FAN, OUTPUT);
    digitalWrite(OZONO_ON, HIGH); 
-   digitalWrite(FAN, HIGH);
+   digitalWrite(FAN, LOW);
    digitalWrite(UV_C_LED, LOW); //turn off LED
    
    //Init SD_Card int 
@@ -1017,7 +1017,7 @@ void loop()
           my_lcd.Set_Text_colour(WHITE);
           my_lcd.Print_String("10:00",30, 185);
           digitalWrite(OZONO_ON, LOW); 
-          digitalWrite(FAN, LOW); 
+          digitalWrite(FAN, HIGH); 
           //while ((iMin != 0) || (iSecond != 0))
           while (((iMin != 0) || (iSecond != 0)) && (!bStop))
           {
@@ -1057,7 +1057,7 @@ void loop()
                   iMin = 0;
                   iSecond = 0;
                   digitalWrite(OZONO_ON, HIGH); //turn off LED
-                  digitalWrite(FAN, HIGH); //turn off LED
+                  digitalWrite(FAN, LOW); //turn off LED
                 }
             }
             //delay(975);// sustituir este delay for while y que la pulsar stop se pare el contador y se apague el led
@@ -1070,7 +1070,7 @@ void loop()
             my_lcd.Set_Text_colour(WHITE);
             my_lcd.Print_String("0:00",55, 185);  //la cadena str es la que va a ir cambiando!!!! habrá que hacer un strconcatena y bla, bla...            
             digitalWrite(OZONO_ON, HIGH); //turn off LED
-            digitalWrite(FAN, HIGH); //turn off LED
+            digitalWrite(FAN, LOW); //turn off LED
           }          
           my_lcd.Fill_Round_Rectangle(30, 165, 290, 400, 5);
           my_lcd.Print_String("10:00",30, 185);
@@ -1129,7 +1129,7 @@ void loop()
           my_lcd.Set_Text_colour(WHITE);
           my_lcd.Print_String("7:00",55, 185);
           digitalWrite(OZONO_ON, LOW); //turn on OZONO
-          digitalWrite(FAN, LOW); //turn on OZONO
+          digitalWrite(FAN, HIGH); //turn on OZONO
           //while ((iMin != 0) || (iSecond != 0))
           while (((iMin != 0) || (iSecond != 0)) && (!bStop))
           {
@@ -1164,7 +1164,7 @@ void loop()
                   iMin = 0;
                   iSecond = 0;
                   digitalWrite(OZONO_ON, HIGH); //turn off LED
-                  digitalWrite(FAN, HIGH); //turn off LED
+                  digitalWrite(FAN, LOW); //turn off LED
                 }
             }
             //delay(975);// sustituir este delay for while y que la pulsar stop se pare el contador y se apague el led
@@ -1177,7 +1177,7 @@ void loop()
             my_lcd.Set_Text_colour(WHITE);
             my_lcd.Print_String("0:00",55, 185);  //la cadena str es la que va a ir cambiando!!!! habrá que hacer un strconcatena y bla, bla...            
             digitalWrite(OZONO_ON, HIGH); //turn off LED
-            digitalWrite(FAN, HIGH); //turn off LED
+            digitalWrite(FAN, LOW); //turn off LED
           }
           my_lcd.Fill_Round_Rectangle(30, 165, 290, 400, 5);
           my_lcd.Print_String("7:00",55, 185);
@@ -1236,7 +1236,7 @@ void loop()
           my_lcd.Set_Text_colour(WHITE);
           my_lcd.Print_String("5:00",55, 185);
           digitalWrite(OZONO_ON, LOW); //turn on OZONO
-          digitalWrite(FAN, LOW); //turn on OZONO
+          digitalWrite(FAN, HIGH); //turn on OZONO
           //while ((iMin != 0) || (iSecond != 0))
           while (((iMin != 0) || (iSecond != 0)) && (!bStop))
           {
@@ -1271,7 +1271,7 @@ void loop()
                   iMin = 0;
                   iSecond = 0;
                   digitalWrite(OZONO_ON, HIGH); //turn off LED
-                  digitalWrite(FAN, HIGH); //turn off LED
+                  digitalWrite(FAN, LOW); //turn off LED
                 }
             }
             //delay(975);// sustituir este delay for while y que la pulsar stop se pare el contador y se apague el led
@@ -1284,7 +1284,7 @@ void loop()
             my_lcd.Set_Text_colour(WHITE);
             my_lcd.Print_String("0:00",55, 185);  //la cadena str es la que va a ir cambiando!!!! habrá que hacer un strconcatena y bla, bla...            
             digitalWrite(OZONO_ON, HIGH); //turn off LED
-            digitalWrite(FAN, HIGH); //turn off LED
+            digitalWrite(FAN, LOW); //turn off LED
           }
           my_lcd.Fill_Round_Rectangle(30, 165, 290, 400, 5);
           my_lcd.Print_String("5:00",55, 185);
@@ -1343,7 +1343,7 @@ void loop()
           my_lcd.Set_Text_colour(WHITE);
           my_lcd.Print_String("3:00",55, 185);
           digitalWrite(OZONO_ON, LOW); //turn on OZONO
-          digitalWrite(FAN, LOW); //turn on OZONO
+          digitalWrite(FAN, HIGH); //turn on OZONO
           //while ((iMin != 0) || (iSecond != 0))
           while (((iMin != 0) || (iSecond != 0)) && (!bStop))
           {
@@ -1378,7 +1378,7 @@ void loop()
                   iMin = 0;
                   iSecond = 0;
                   digitalWrite(OZONO_ON, HIGH); //turn off LED
-                  digitalWrite(FAN, HIGH); //turn off LED
+                  digitalWrite(FAN, LOW); //turn off LED
                 }
             }
             //delay(975);// sustituir este delay for while y que la pulsar stop se pare el contador y se apague el led
@@ -1391,7 +1391,7 @@ void loop()
             my_lcd.Set_Text_colour(WHITE);
             my_lcd.Print_String("0:00",55, 185);  //la cadena str es la que va a ir cambiando!!!! habrá que hacer un strconcatena y bla, bla...            
             digitalWrite(OZONO_ON, HIGH); //turn off LED
-            digitalWrite(FAN, HIGH); //turn off LED
+            digitalWrite(FAN, LOW); //turn off LED
           }
           my_lcd.Fill_Round_Rectangle(30, 165, 290, 400, 5);
           my_lcd.Print_String("3:00",55, 185);
@@ -1450,7 +1450,7 @@ void loop()
           my_lcd.Set_Text_colour(WHITE);
           my_lcd.Print_String("4:00",55, 185);
           digitalWrite(OZONO_ON, LOW); //turn on OZONO
-          digitalWrite(FAN, LOW); //turn on OZONO
+          digitalWrite(FAN, HIGH); //turn on OZONO
           //while ((iMin != 0) || (iSecond != 0))
           while (((iMin != 0) || (iSecond != 0)) && (!bStop))
           {
@@ -1485,7 +1485,7 @@ void loop()
                   iMin = 0;
                   iSecond = 0;
                   digitalWrite(OZONO_ON, HIGH); //turn off LED
-                  digitalWrite(FAN, HIGH); //turn off LED
+                  digitalWrite(FAN, LOW); //turn off LED
                 }
             }
             //delay(975);// sustituir este delay for while y que la pulsar stop se pare el contador y se apague el led
@@ -1498,7 +1498,7 @@ void loop()
             my_lcd.Set_Text_colour(WHITE);
             my_lcd.Print_String("0:00",55, 185);  //la cadena str es la que va a ir cambiando!!!! habrá que hacer un strconcatena y bla, bla...            
             digitalWrite(OZONO_ON, HIGH); //turn off LED
-            digitalWrite(FAN, HIGH); //turn off LED
+            digitalWrite(FAN, LOW); //turn off LED
           }
           my_lcd.Fill_Round_Rectangle(30, 165, 290, 400, 5);
           my_lcd.Print_String("4:00",55, 185);
@@ -1557,7 +1557,7 @@ void loop()
           my_lcd.Set_Text_colour(WHITE);
           my_lcd.Print_String("2:00",55, 185);
           digitalWrite(OZONO_ON, LOW); //turn on OZONO
-          digitalWrite(FAN, LOW); //turn on OZONO
+          digitalWrite(FAN, HIGH); //turn on OZONO
           //while ((iMin != 0) || (iSecond != 0))
           while (((iMin != 0) || (iSecond != 0)) && (!bStop))
           {
@@ -1592,7 +1592,7 @@ void loop()
                   iMin = 0;
                   iSecond = 0;
                   digitalWrite(OZONO_ON, HIGH); //turn off LED
-                  digitalWrite(FAN, HIGH); //turn off LED
+                  digitalWrite(FAN, LOW); //turn off LED
                 }
             }
             //delay(975);// sustituir este delay for while y que la pulsar stop se pare el contador y se apague el led
@@ -1605,7 +1605,7 @@ void loop()
             my_lcd.Set_Text_colour(WHITE);
             my_lcd.Print_String("0:00",55, 185);  //la cadena str es la que va a ir cambiando!!!! habrá que hacer un strconcatena y bla, bla...            
             digitalWrite(OZONO_ON, HIGH); //turn off LED
-            digitalWrite(FAN, HIGH); //turn off LED
+            digitalWrite(FAN, LOW); //turn off LED
           }
           my_lcd.Fill_Round_Rectangle(30, 165, 290, 400, 5);
           my_lcd.Print_String("2:00",55, 185);
